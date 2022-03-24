@@ -1,0 +1,34 @@
+USE GRAPH AMLSim
+
+BEGIN
+CREATE LOADING JOB AMLSim_load_data_job FOR GRAPH AMLSim {
+
+  ###################################################################
+  # define customer group
+  ###################################################################
+  DEFINE FILENAME f_accounts   = "work-in-progress/AMLSim/data/accounts.csv";
+  DEFINE FILENAME f_alerts  = "work-in-progress/AMLSim/data/alerts.csv";
+  DEFINE FILENAME f_transactions   = "work-in-progress/AMLSim/data/transactions.csv";
+  
+  DEFINE HEADER hdr_accounts = "ACCOUNT_ID", "INIT_BALANCE", "ACCOUNT_TYPE", "IS_FRAUD", "TX_BEHAVIOR_ID", "pagerank", "label", "current_balance", "min_send_tx", "min_recieve_tx", "max_send_tx", "max_recieve_tx", "avg_send_tx", "avg_recieve_tx", "cnt_recieve_tx", "cnt_send_tx";
+  DEFINE HEADER hdr_alerts   = "ALERT_ID", "ALERT_TYPE", "IS_FRAUD", "TIMESTAMP";
+  DEFINE HEADER hdr_transactions   = "TX_ID", "TX_TYPE", "TX_AMOUNT", "IS_FRAUD";
+
+  LOAD f_accounts TO VERTEX Account  VALUES ($"ACCOUNT_ID", $"INIT_BALANCE", $"ACCOUNT_TYPE", $"IS_FRAUD", $"TX_BEHAVIOR_ID", _, _, _, _, _, _, _, _, _, _, _) USING header="true", separator=",";
+  LOAD f_alerts TO VERTEX Alert  VALUES ($"ALERT_ID", $"ALERT_TYPE", $"IS_FRAUD", $"TIMESTAMP") USING header="true", separator=",";
+  LOAD f_transactions TO VERTEX Transaction  VALUES ($"TX_ID", $"TX_TYPE", $"TX_AMOUNT", $"IS_FRAUD") USING header="true", separator=",";
+ 
+  LOAD f_accounts TO EDGE Based_In VALUES ($"CUSTOMER_ID", $"COUNTRY") USING header="true", separator=",";
+  LOAD f_accounts TO EDGE Customer_Account VALUES ($"CUSTOMER_ID", $"ACCOUNT_ID") USING header="true", separator=",";
+  LOAD f_alerts TO EDGE Transaction_Flagged VALUES ($"TX_ID", $"ALERT_ID") USING header="true", separator=",";
+  LOAD f_accounts TO EDGE Send_To VALUES ($"ACCOUNT_ID", $"ACCOUNT_ID") USING header="true", separator=",";
+   
+  LOAD f_transactions TO EDGE Send_Transaction VALUES ($"SENDER_ACCOUNT_ID", $"TX_ID", $"TX_TYPE", $"TIMESTAMP") USING header="true", separator=",";
+  LOAD f_transactions TO EDGE Recieve_Transaction VALUES ($"TX_ID", $"RECEIVER_ACCOUNT_ID", $"TX_TYPE", $"TIMESTAMP") USING header="true", separator=",";
+
+}
+END
+
+RUN LOADING JOB AMLSim_load_data_job
+DROP JOB AMLSim_load_data_job
+

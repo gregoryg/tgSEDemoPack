@@ -1,0 +1,129 @@
+USE GRAPH OnTimePerformanceGraph
+
+CREATE LOADING JOB load_job_AirlineGraph_L_AIRLINE_ID_csv_1634144632268 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_AIRLINE_ID VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_AIRPORT_csv_1634144632269 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_AIRPORT VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_AIRPORT_ID_csv_1634144632269 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_AIRPORT_ID VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_AIRPORT_SEQ_ID_csv_1634144632270 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_AIRPORT_SEQ_ID VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_CANCELLATION_csv_1634144632270 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_CANCELLATION VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_CITY_MARKET_ID_csv_1634144632271 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_CITY_MARKET_ID VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_DEPARRBLK_csv_1634144632271 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_DEPARRBLK VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_DISTANCE_GROUP_250_csv_1634144632272 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_DISTANCE_GROUP_250 VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_DIVERSIONS_csv_1634144632272 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_DIVERSIONS VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_MONTHS_csv_1634144632273 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_MONTHS VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_ONTIME_DELAY_GROUPS_csv_1634144632274 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_ONTIME_DELAY_GROUPS VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_QUARTERS_csv_1634144632275 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_QUARTERS VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_STATE_ABR_AVIATION_csv_1634144632275 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_STATE_ABR_AVIATION VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_STATE_FIPS_csv_1634144632276 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_STATE_FIPS VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_UNIQUE_CARRIERS_csv_1634144632277 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_UNIQUE_CARRIERS VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_WEEKDAYS_csv_1634144632279 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_WEEKDAYS VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_WORLD_AREA_CODES_csv_1634144632280 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_WORLD_AREA_CODES VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_L_YESNO_RESP_csv_1634144632281 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX L_YESNO_RESP VALUES($0, $0, $1) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}
+
+CREATE LOADING JOB load_job_AirlineGraph_On_Time_On_Time_Performance_2016_1_csv_1634144632282 FOR GRAPH OnTimePerformanceGraph {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX On_Time_On_Time_Performance_2016_1 VALUES(gsql_uuid_v4("\0"), $0, $3, $5, $8, $9, $10, $15, $18, $24, $27, $29, $30, $31, $32, $36, $37, $38, $39, $40, $41, $42, $43, $46, $50, $51, $52, $53, $54, $56, $57, $58, $59, $60, $61, $62, $63, $65, $66, $67, $68, $69, $72, $73, $74, $75, $76, $77, $80, $81, $82) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRLINE_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($7, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_YESNO_RESP_to_On_Time_On_Time_Performance_2016_1 VALUES($44, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_ONTIME_DELAY_GROUPS_to_On_Time_On_Time_Performance_2016_1 VALUES($45, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_CANCELLATION_to_On_Time_On_Time_Performance_2016_1 VALUES($48, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_YESNO_RESP_to_On_Time_On_Time_Performance_2016_1 VALUES($47, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_WEEKDAYS_to_On_Time_On_Time_Performance_2016_1 VALUES($4, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_YESNO_RESP_to_On_Time_On_Time_Performance_2016_1 VALUES($33, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_DEPARRBLK_to_On_Time_On_Time_Performance_2016_1 VALUES($35, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_ONTIME_DELAY_GROUPS_to_On_Time_On_Time_Performance_2016_1 VALUES($34, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($20, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_SEQ_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($21, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_CITY_MARKET_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($22, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_STATE_FIPS_to_On_Time_On_Time_Performance_2016_1 VALUES($26, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_STATE_ABR_AVIATION_to_On_Time_On_Time_Performance_2016_1 VALUES($25, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_WORLD_AREA_CODES_to_On_Time_On_Time_Performance_2016_1 VALUES($28, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_to_On_Time_On_Time_Performance_2016_1 VALUES($23, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_DISTANCE_GROUP_250_to_On_Time_On_Time_Performance_2016_1 VALUES($55, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($70, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_SEQ_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($71, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($78, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_SEQ_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($79, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_DIVERSIONS_to_On_Time_On_Time_Performance_2016_1 VALUES($64, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_YESNO_RESP_to_On_Time_On_Time_Performance_2016_1 VALUES($49, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_MONTHS_to_On_Time_On_Time_Performance_2016_1 VALUES($2, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($11, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_SEQ_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($12, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_CITY_MARKET_ID_to_On_Time_On_Time_Performance_2016_1 VALUES($13, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_STATE_FIPS_to_On_Time_On_Time_Performance_2016_1 VALUES($17, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_STATE_ABR_AVIATION_to_On_Time_On_Time_Performance_2016_1 VALUES($16, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_WORLD_AREA_CODES_to_On_Time_On_Time_Performance_2016_1 VALUES($19, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_AIRPORT_to_On_Time_On_Time_Performance_2016_1 VALUES($14, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_QUARTERS_to_On_Time_On_Time_Performance_2016_1 VALUES($1, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE L_UNIQUE_CARRIERS_to_On_Time_On_Time_Performance_2016_1 VALUES($6, gsql_uuid_v4("\0")) USING SEPARATOR="\1", HEADER="true", EOL="\n";
+}

@@ -1,0 +1,4 @@
+USE GRAPH AMLSim
+
+RUN LOADING JOB AMLSim_load_data_job
+

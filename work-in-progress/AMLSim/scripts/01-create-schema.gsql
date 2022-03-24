@@ -1,0 +1,28 @@
+###############################################################################
+# FRAUD - AMLSim EXPERIENCE 
+###############################################################################
+USE GLOBAL
+
+DROP GRAPH AMLSim
+CREATE GRAPH AMLSim()
+USE GRAPH AMLSim
+
+CREATE SCHEMA_CHANGE JOB amlSim_schema_change_job FOR GRAPH AMLSim {
+
+	ADD VERTEX Country (PRIMARY_ID id STRING) WITH primary_id_as_attribute="true";
+	ADD VERTEX Customer (PRIMARY_ID CUSTOMER_ID STRING) WITH primary_id_as_attribute="true";
+	ADD VERTEX Account (PRIMARY_ID ACCOUNT_ID STRING, INIT_BALANCE DOUBLE, ACCOUNT_TYPE STRING, IS_FRAUD BOOL, TX_BEHAVIOR_ID INT, pagerank FLOAT DEFAULT 0.0, label INT DEFAULT 0, current_balance DOUBLE DEFAULT 0.0, min_send_tx DOUBLE DEFAULT 0.0, min_recieve_tx DOUBLE DEFAULT 0.0, max_send_tx DOUBLE DEFAULT 0.0, max_recieve_tx DOUBLE DEFAULT 0.0, avg_send_tx DOUBLE DEFAULT 0.0, avg_recieve_tx DOUBLE DEFAULT 0.0, cnt_recieve_tx INT DEFAULT 0, cnt_send_tx INT DEFAULT 0) WITH primary_id_as_attribute="true";
+	ADD VERTEX Transaction (PRIMARY_ID TX_ID STRING, TX_TYPE INT, TX_AMOUNT DOUBLE, IS_FRAUD BOOL) WITH primary_id_as_attribute="true";
+	ADD VERTEX Alert (PRIMARY_ID ALERT_ID STRING, ALERT_TYPE STRING, IS_FRAUD BOOL, TIMESTAMP INT) WITH primary_id_as_attribute="true";
+
+	ADD UNDIRECTED EDGE Based_In (From Customer, To Country);
+	ADD UNDIRECTED EDGE Customer_Account (From Customer, To Account);
+	ADD UNDIRECTED EDGE Transaction_Flagged (From Transaction, To Alert);
+	ADD DIRECTED EDGE Send_To (From Account, To Account) WITH REVERSE_EDGE="reverse_Send_To";
+	ADD DIRECTED EDGE Send_Transaction (From Account, To Transaction, TIMESTAMP INT, TX_TYPE STRING) WITH REVERSE_EDGE="reverse_Send_Transaction";
+	ADD DIRECTED EDGE Recieve_Transaction (From Transaction, To Account, TIMESTAMP INT, TX_TYPE STRING) WITH REVERSE_EDGE="reverse_Recieve_Transaction";
+
+}
+
+RUN SCHEMA_CHANGE JOB amlSim_schema_change_job
+DROP JOB amlSim_schema_change_job
