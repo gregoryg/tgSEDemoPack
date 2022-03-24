@@ -19,24 +19,39 @@ fi
 
 echo ''
 echo "For remote installations, such as TGCloud, python-3 is required your version is"
-python --version
+python3 --version
 result=$?
 if [[ $result=0 ]]; then
-	echo 'Python installed, checking version'
+	echo 'Python v3 is installed. We are all good'
 else
-	echo "${RED}Python v3 needs to be installed${NG}"
+    python --version
+    result=$?
+    if [[ $result=0 ]]; then
+        if [[ $(python --version) != *3.* ]]; then
+            echo "${RED}Only python 2 is installed, please update${NG}"
+        else
+            echo "All good python command is set to v3"
+        fi
+    else
+        echo "${RED}Python v3 needs to be installed${NG}"
+    fi
 fi
 
 echo ''
 echo "This utility uses the python pyTigerGraph library, which needs to be installed via pip"
-pyTGresult="$(pip list |grep Tiger 2>&1)"
+pyTGresult="$(pip list  2>&1)"
 if [[ $pyTGresult == *"pyTigerGraph"* ]];
 then
     echo "pyTigerGraph installed, versions are:"
     echo $pyTGresult
 else
-    echo "${RED}pyTigerGraph is not installed you can install using pip install pyTigerGraph.${NG}"
+    echo -e "${RED}pyTigerGraph is not installed you can install using pip install pyTigerGraph.${NC}"
 fi
 
-echo 'You need an AWS client access token to access the demo data which is stored on S3'
+echo ''
+echo 'You will need an AWS client access token to access the demo data which is stored on S3'
 echo '  A token can be retrieved from the AWS Console, or by contacting a friendly SE'
+echo '   The format of a token looks like this:'
+echo '     Access key ID,Secret access key'
+echo '     ***********OC7EB,**************LPdAZ'
+echo ''

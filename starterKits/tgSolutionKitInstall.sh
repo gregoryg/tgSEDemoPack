@@ -100,7 +100,7 @@ while true; do
 	elif [ $install_type == 'P' ] || [ $install_type == 'p' ] || [ $install_type == 'python' ]; then
 		echo "Cool, python it is..."
 		echo "Lets make sure python is installed and configured"
-		python --version
+		python3 --version
 		result=$?
 		if [[ $result=0 ]]; then
 			echo 'Python installed, checking version'
