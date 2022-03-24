@@ -1,0 +1,14 @@
+USE GLOBAL
+DROP GRAPH ShortestPathAlgorithmsGraph
+
+CREATE GRAPH ShortestPathAlgorithmsGraph()
+USE GRAPH ShortestPathAlgorithmsGraph
+
+CREATE SCHEMA_CHANGE JOB ShortestPathAlgorithmsGraph_change_job FOR GRAPH ShortestPathAlgorithmsGraph {
+
+ADD VERTEX Airport(PRIMARY_ID id STRING, name STRING, city STRING, country STRING, IATA STRING, latitude DOUBLE, longitude DOUBLE) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+ADD UNDIRECTED EDGE flight_route(FROM Airport, TO Airport, miles INT);
+}
+
+RUN SCHEMA_CHANGE JOB ShortestPathAlgorithmsGraph_change_job
+DROP JOB ShortestPathAlgorithmsGraph_change_job

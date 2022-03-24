@@ -1,0 +1,4 @@
+USE GRAPH DataLineageGraph
+RUN LOADING JOB DataLineageGraph_load_job USING EOF="true"
+DROP JOB DataLineageGraph_load_job
+

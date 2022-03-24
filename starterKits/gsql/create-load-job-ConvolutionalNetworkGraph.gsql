@@ -1,0 +1,15 @@
+GRANT DATA_SOURCE s3_data_source TO GRAPH ConvolutionalNetworkGraph
+
+USE GRAPH ConvolutionalNetworkGraph
+
+CREATE LOADING JOB ConvolutionalNetworkGraph_load_job FOR GRAPH ConvolutionalNetworkGraph {
+
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ConvolutionalNetwork/PAPER.tsv\"}" TO VERTEX PAPER VALUES ($"primary_id", $"indx", SPLIT($"words", ":", "#"), $"class_label", $"train", $"validation", $"test", $"data_split_label") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ConvolutionalNetwork/WORD.tsv\"}" TO VERTEX WORD VALUES ($"primary_id", $"indx") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ConvolutionalNetwork/LAYER_0.tsv\"}" TO VERTEX LAYER_0 VALUES ($"primary_id", $"indx") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ConvolutionalNetwork/LAYER_1.tsv\"}" TO VERTEX LAYER_1 VALUES ($"primary_id", $"indx") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ConvolutionalNetwork/CITE.tsv\"}" TO EDGE CITE VALUES ($"from", $"to", $"weight") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ConvolutionalNetwork/HAS.tsv\"}" TO EDGE HAS VALUES ($"from", $"to", $"weight") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ConvolutionalNetwork/WORD_LAYER_0.tsv\"}" TO EDGE WORD_LAYER_0 VALUES ($"from", $"to", $"weight") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ConvolutionalNetwork/LAYER_0_LAYER_1.tsv\"}" TO EDGE LAYER_0_LAYER_1 VALUES ($"from", $"to", $"weight") USING SEPARATOR = "\t", HEADER = "true";
+}

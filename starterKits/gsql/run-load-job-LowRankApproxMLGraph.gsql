@@ -1,0 +1,4 @@
+USE GRAPH LowRankApproxMLGraph
+RUN LOADING JOB LowRankApproxMLGraph_load_job USING EOF="true"
+DROP JOB LowRankApproxMLGraph_load_job
+

@@ -1,0 +1,17 @@
+GRANT DATA_SOURCE s3_data_source TO GRAPH HealthCareReferralsGraph
+
+USE GRAPH HealthCareReferralsGraph
+
+CREATE LOADING JOB HealthCareReferralsGraph_load_job FOR GRAPH HealthCareReferralsGraph {
+
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/Specialty.tsv\"}" TO VERTEX Specialty VALUES ($"primary_id") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/SubSpecialty.tsv\"}" TO VERTEX SubSpecialty VALUES ($"primary_id") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/Prescriber.tsv\"}" TO VERTEX Prescriber VALUES ($"primary_id", $"pageRank", $"communityId") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/Claim.tsv\"}" TO VERTEX Claim VALUES ($"primary_id", $"rx_fill_date", $"ICD10Code", $"ICD10CodeDescription", $"CodeGroupTitle") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/Patient.tsv\"}" TO VERTEX Patient VALUES ($"primary_id") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/submitted_by.tsv\"}" TO EDGE submitted_by VALUES ($"from", $"to") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/associated.tsv\"}" TO EDGE associated VALUES ($"from", $"to") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/specialty_subspecialty.tsv\"}" TO EDGE specialty_subspecialty VALUES ($"from", $"to") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/subspecialty_prescriber.tsv\"}" TO EDGE subspecialty_prescriber VALUES ($"from", $"to") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareReferrals/referral.tsv\"}" TO EDGE referral VALUES ($"from", $"to", $"num_patient") USING SEPARATOR = "\t", HEADER = "true";
+}

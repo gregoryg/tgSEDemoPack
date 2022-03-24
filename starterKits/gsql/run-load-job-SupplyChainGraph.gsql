@@ -1,0 +1,4 @@
+USE GRAPH SupplyChainGraph
+RUN LOADING JOB SupplyChainGraph_load_job USING EOF="true"
+DROP JOB SupplyChainGraph_load_job
+

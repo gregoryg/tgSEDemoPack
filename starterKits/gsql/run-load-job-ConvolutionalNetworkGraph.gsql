@@ -1,0 +1,4 @@
+USE GRAPH ConvolutionalNetworkGraph
+RUN LOADING JOB ConvolutionalNetworkGraph_load_job USING EOF="true"
+DROP JOB ConvolutionalNetworkGraph_load_job
+

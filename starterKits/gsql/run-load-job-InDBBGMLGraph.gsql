@@ -1,0 +1,4 @@
+USE GRAPH InDBBGMLGraph
+RUN LOADING JOB InDBBGMLGraph_load_job USING EOF="true"
+DROP JOB InDBBGMLGraph_load_job
+
