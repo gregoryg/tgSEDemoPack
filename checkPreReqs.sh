@@ -39,7 +39,7 @@ fi
 
 echo ''
 echo "This utility uses the python pyTigerGraph library, which needs to be installed via pip"
-pyTGresult="$(pip list  2>&1)"
+pyTGresult="$(pip list |grep Tiger 2>&1)"
 if [[ $pyTGresult == *"pyTigerGraph"* ]];
 then
     echo "pyTigerGraph installed, versions are:"
