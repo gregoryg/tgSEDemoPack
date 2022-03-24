@@ -1,7 +1,7 @@
-# TigerGraph Solution Pack Installer v1.2
+# TigerGraph SE Demo Pack Installer v1.2
 ## 
 
-`tgSolutionPack` - this package contains the content required to populate any TigerGraph instance (local/cloud/tgcloud) with custom SE demo content and/or any of the 26 Starter Kits available on TGCloud. The current version provides the following content:
+`tgSEDemoPack` - this package contains the content required to populate any TigerGraph instance (local/cloud/tgcloud) with custom SE demo content and/or any of the 26 Starter Kits available on TGCloud. The current version provides the following content:
     
 ## Custom Demos 
 ### These demos cover various public datasets (LDBC, TPC, Synthea) and other general purpose TG solutions.
