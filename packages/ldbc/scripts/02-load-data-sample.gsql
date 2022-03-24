@@ -1,0 +1,46 @@
+USE GRAPH LDBC_Benchmark
+
+CREATE LOADING JOB loadLDBCData_Sample_job FOR GRAPH LDBC_Benchmark {
+   DEFINE FILENAME comment = "./packages/ldbc/data/comment_sample.csv";
+   DEFINE FILENAME forum = "./packages/ldbc/data/forum_0_0.csv";
+   DEFINE FILENAME organization = "./packages/ldbc/data/organisation_0_0.csv";
+   DEFINE FILENAME person = "./packages/ldbc/data/person_0_0.csv";
+   DEFINE FILENAME place = "./packages/ldbc/data/place_0_0.csv";
+   DEFINE FILENAME post = "./packages/ldbc/data/post_sample.csv";
+   DEFINE FILENAME tag = "./packages/ldbc/data/tag_0_0.csv";
+   DEFINE FILENAME tagClass = "./packages/ldbc/data/tagclass_0_0.csv";
+
+   DEFINE FILENAME hasCreatorComment = "./packages/ldbc/data/comment_hasCreator_person_sample.csv";
+   DEFINE FILENAME hasTag = "./packages/ldbc/data/comment_hasTag_tag_sample.csv";
+   DEFINE FILENAME hasInterest= "./packages/ldbc/data/person_hasInterest_tag_0_0.csv";
+   DEFINE FILENAME likes= "./packages/ldbc/data/person_likes_post_sample.csv";
+   DEFINE FILENAME workAt= "./packages/ldbc/data/person_workAt_organisation_0_0.csv";
+   DEFINE FILENAME hasCreatorPost = "./packages/ldbc/data/post_hasCreator_person_sample.csv";
+   DEFINE FILENAME hasType= "./packages/ldbc/data/tag_hasType_tagclass_0_0.csv";
+   DEFINE FILENAME hasMember= "./packages/ldbc/data/forum_hasMember_person_sample.csv";
+   DEFINE FILENAME isLocatedAt= "./packages/ldbc/data/person_isLocatedIn_place_0_0.csv";
+   DEFINE FILENAME knows= "./packages/ldbc/data/person_knows_person_sample.csv";
+   
+   LOAD comment TO VERTEX Comment VALUES ($0, $1, $2, $3, $4, $5) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD forum TO VERTEX Forum VALUES ($0, $1, $2) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD organization TO VERTEX Organization VALUES ($0, $1, $2, $3) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD person TO VERTEX Person VALUES ($0, $1, $2, $3, $4, $5, $6, $7) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD place TO VERTEX Place VALUES ($0, $1, $2, $3) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD post TO VERTEX Post VALUES ($0, $1, $2, $3, $4, $5, $6, $7) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD tag TO VERTEX Tag VALUES ($0, $1, $2) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD tagClass TO VERTEX Tag VALUES ($0, $1, $2) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   
+   LOAD hasCreatorComment TO EDGE Has_Creator_Comment VALUES($0, $1) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD hasTag TO EDGE Has_Tag VALUES($0, $1) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD hasInterest TO EDGE Has_Interest VALUES($0, $1) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD likes TO EDGE Likes VALUES($0, $1, $2) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD workAt TO EDGE Work_At VALUES($0, $1, $2) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD hasCreatorPost TO EDGE Has_Creator_Post VALUES($0, $1) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD hasType TO EDGE Has_Type VALUES($0, $1) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD hasMember TO EDGE Has_Member VALUES($0, $1, $2) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD isLocatedAt TO EDGE Is_Located_At VALUES($0, $1) USING SEPARATOR="|", HEADER="true", EOL="\n";
+   LOAD knows TO EDGE Knows VALUES($0, $1, $2) USING SEPARATOR="|", HEADER="true", EOL="\n";
+}
+
+RUN LOADING JOB loadLDBCData_Sample_job
+DROP JOB loadLDBCData_Sample_job

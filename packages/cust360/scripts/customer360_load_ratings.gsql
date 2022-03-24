@@ -1,0 +1,39 @@
+USE GRAPH Customer360
+DROP JOB customer360_load_ratings
+
+CREATE LOADING JOB customer360_load_ratings FOR GRAPH Customer360 {
+
+  ###################################################################
+  # define customer group
+  ###################################################################
+  DEFINE FILENAME f_movieratings  = "./packages/cust360/data/c360_movie_ratings.csv";
+  DEFINE FILENAME f_bookratings   = "./packages/cust360/data/c360_book_ratings.csv";
+  DEFINE FILENAME f_movies        = "./packages/cust360/data/ce_movies.csv";
+  DEFINE FILENAME f_books         = "./packages/cust360/data/ce_books_sample.csv";
+
+
+  DEFINE HEADER hdr_movieratings  = "user_id","movie_id","movie_date","movie_rating";
+  DEFINE HEADER hdr_bookratings   = "user_id","book_id","book_date","book_rating";
+  DEFINE HEADER hdr_movies   = "movie_id", "movie_title", "movie_year", "movie_genre";
+  DEFINE HEADER hdr_books    = "book_id","ISBN", "BookTitle","BookAuthor","BookYear","Publisher","BookImage";
+
+  ###################################################################
+  # Sessions and Events
+  ###################################################################
+  LOAD f_movies    TO VERTEX Movies VALUES ($"movie_id", $"movie_title", $"movie_year") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_movies";
+  LOAD f_movies    TO VERTEX Genre  VALUES ($"movie_genre") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_movies";
+  LOAD f_movies    TO EDGE movie_genre  VALUES ($"movie_id", $"movie_genre") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_movies";
+
+  LOAD f_books     TO VERTEX Books        VALUES ($"book_id", $"BookTitle", $"BookYear", $"BookImage", $"ISBN") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_books";
+  LOAD f_books     TO VERTEX Author       VALUES ($"BookAuthor") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_books";
+  LOAD f_books     TO VERTEX Publisher    VALUES ($"Publisher") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_books";
+  LOAD f_books     TO EDGE book_author    VALUES ($"book_id", $"BookAuthor") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_books";
+  LOAD f_books     TO EDGE book_publisher VALUES ($"book_id", $"Publisher") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_books";
+
+  LOAD f_movieratings TO EDGE movie_ratings VALUES ($"user_id", $"movie_id", $"movie_date", $"movie_rating") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_movieratings";
+  LOAD f_bookratings  TO EDGE book_ratings  VALUES ($"user_id", $"book_id", $"book_date", $"book_rating") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_bookratings";
+
+}
+
+RUN LOADING JOB customer360_load_ratings
+

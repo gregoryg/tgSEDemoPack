@@ -1,0 +1,16 @@
+USE GRAPH ShortestPath
+
+CREATE LOADING JOB shortestPathFlights_job FOR GRAPH ShortestPath {
+   DEFINE FILENAME airportData = "./packages/shortestPathFlights/data/airports.csv";
+   DEFINE FILENAME airportPathDemoData = "./packages/shortestPathFlights/data/airports-path-demo.csv";
+   DEFINE FILENAME routeData = "./packages/shortestPathFlights/data/routes.csv";
+   DEFINE FILENAME routePathDemoData = "./packages/shortestPathFlights/data/routes-path-demo.csv";
+
+   LOAD airportData TO VERTEX Airport VALUES(gsql_concat($4,"-",$0), $1, $2, $3, $4, $6, $7) USING SEPARATOR=",", HEADER="true", EOL="\n", QUOTE="double";
+   LOAD airportPathDemoData TO VERTEX Airport VALUES($4, $1, $2, $3, $4, $6, $7) USING SEPARATOR=",", HEADER="true", EOL="\n", QUOTE="double";
+   LOAD routeData TO EDGE flight_route VALUES(gsql_concat($2,"-",$3), gsql_concat($4,"-",$5), _) USING SEPARATOR=",", HEADER="true", EOL="\n", QUOTE="double";
+   LOAD routePathDemoData TO EDGE flight_route VALUES($2, $4, $13) USING SEPARATOR=",", HEADER="true", EOL="\n";
+}
+
+RUN LOADING JOB shortestPathFlights_job
+DROP JOB shortestPathFlights_job

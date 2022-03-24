@@ -1,0 +1,23 @@
+USE GRAPH SyntheaGraph
+
+RUN LOADING JOB loadAllergies USING f1="./packages/synthea/data/allergies.csv"
+RUN LOADING JOB loadImmunizations USING f1="./packages/synthea/data/immunizations.csv"
+RUN LOADING JOB loadPayerTransitions USING f1="./packages/synthea/data/payer_transitions.csv"
+RUN LOADING JOB loadPayers USING f1="./packages/synthea/data/payers.csv"
+RUN LOADING JOB loadAttributes USING f1="./packages/synthea/data/allergies.csv"
+RUN LOADING JOB loadMedications USING f1="./packages/synthea/data/medications.csv"
+RUN LOADING JOB loadProcedures USING f1="./packages/synthea/data/procedures.csv"
+RUN LOADING JOB loadCareplans USING f1="./packages/synthea/data/careplans.csv"
+RUN LOADING JOB loadObservations USING f1="./packages/synthea/data/observations.csv"
+RUN LOADING JOB loadProviders USING f1="./packages/synthea/data/providers.csv"
+RUN LOADING JOB loadConditions USING f1="./packages/synthea/data/conditions.csv"
+RUN LOADING JOB loadOrganizations USING f1="./packages/synthea/data/organizations.csv"
+RUN LOADING JOB loadZips USING f1="./packages/synthea/data/zipcodes.csv"
+RUN LOADING JOB loadDevices USING f1="./packages/synthea/data/devices.csv"
+RUN LOADING JOB loadPatient USING f1="./packages/synthea/data/patients.csv"
+RUN LOADING JOB loadEncounters USING f1="./packages/synthea/data/encounters.csv"
+RUN LOADING JOB loadImaging USING f1="./packages/synthea/data/allergies.csv"
+RUN LOADING JOB loadPatientSymptoms USING f1="./packages/synthea/data/normalizedSymptoms.csv"
+
+##RUN LOADING JOB loadPatientNotes USING f1="./packages/synthea/data/allergies.csv"
+##RUN LOADING JOB loadLocations USING f1="./packages/synthea/data/allergies.csv"

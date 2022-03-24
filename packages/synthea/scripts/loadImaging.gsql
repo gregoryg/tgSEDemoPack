@@ -1,0 +1,18 @@
+drop job loadImaging
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadImaging  {
+
+    define filename f1;
+
+    load f1
+        to vertex _ImagingStudies values ($0, $4, $5, $6, $7, $8, $9, $1),
+        to vertex _SnomedCode values ($4, $5),
+        to edge _PATIENT_HAS_IMAGING values ($0, $2),
+        to edge _ENCOUNTER_FOR_IMAGING values ($0, $3),
+        to edge _IMAGING_CODE values ($0, $4)
+        using header="true", separator=",";
+}
+END

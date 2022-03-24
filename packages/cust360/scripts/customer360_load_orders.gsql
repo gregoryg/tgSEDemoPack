@@ -1,0 +1,54 @@
+USE GRAPH Customer360
+DROP JOB customer360_load_orders
+
+CREATE LOADING JOB customer360_load_orders FOR GRAPH Customer360 {
+
+  ###################################################################
+  # define customer group
+  ###################################################################
+  DEFINE FILENAME f_camp_ads   = "./packages/cust360/data/ce_camp-ads.csv";
+  DEFINE FILENAME f_camp_promo = "./packages/cust360/data/ce_camp-promos.csv";
+  DEFINE FILENAME f_solicts    = "./packages/cust360/data/c360_solicits.csv";
+  DEFINE FILENAME f_respons    = "./packages/cust360/data/c360_response.csv";
+  DEFINE FILENAME f_items      = "./packages/cust360/data/ce_items.csv";
+  DEFINE FILENAME f_store      = "./packages/cust360/data/ce_store.csv";
+  DEFINE FILENAME f_orders     = "./packages/cust360/data/c360_orders_sample.csv";
+
+  DEFINE HEADER hdr_camp_ads   = "campaign_id", "campaign_name", "start_date", "end_date", "campaign_type", "ad_id", "ad_name", "ad_channel";
+  DEFINE HEADER hdr_camp_promo = "campaign_id", "campaign_name", "campaign_year", "start_date", "end_date", "campaign_type", "promotion_id", "promotion_name", "promotion_channel";
+  DEFINE HEADER hdr_solicits   = "user_id", "campaign_id", "solicit_timestamp";
+  DEFINE HEADER hdr_response   = "user_id", "campaign_id", "resp_timestamp", "resp_chnl";
+  DEFINE HEADER hdr_item    = "item_id", "item_desc", "dept_id", "dept_desc", "catg_id", "catg_desc", "prodClass", "prodBrand", "item_price", "item_cost", "next_dept_id", "next_catg_id", "item_weight";
+  DEFINE HEADER hdr_store   = "store_id", "store_name", "store_type", "shiptostore", "autocenter", "salon", "zipcode", "city", "state", "county_name", "msa_name", "lat", "lng", "market", "region";
+  DEFINE HEADER hdr_orders  = "user_id", "order_nbr", "order_source", "order_timestamp", "order_type", "store_id", "promo_id", "item_id", "item_qty", "item_price", "item_cost", "item_amt", "item_profit";
+
+
+  ###################################################################
+  # Campaigns
+  ###################################################################
+  LOAD f_camp_promo TO VERTEX Campaign   VALUES ($"campaign_id", $"campaign_year", $"campaign_name", $"campaign_type", $"start_date", $"end_date") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_camp_promo";
+  LOAD f_camp_promo TO VERTEX Promotions VALUES ($"promotion_id", $"promotion_name", $"promotion_channel") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_camp_promo";
+  LOAD f_camp_promo TO EDGE campaign_promotion VALUES ($"campaign_id", $"promotion_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_camp_promo";
+  LOAD f_camp_ads   TO VERTEX Ads        VALUES ($"ad_id", $"ad_name", $"ad_channel") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_camp_ads";
+  LOAD f_camp_ads   TO EDGE campaign_ads VALUES ($"campaign_id", $"ad_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_camp_ads";
+
+  LOAD f_solicts TO EDGE profile_campaign VALUES ($"user_id", $"campaign_id", $"solicit_timestamp") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_solicits";
+  LOAD f_respons TO EDGE profile_response VALUES ($"user_id", $"campaign_id", $"resp_timestamp", $"resp_chnl") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_response";
+
+  ###################################################################
+  # Orders
+  ###################################################################
+  LOAD f_items  TO VERTEX Products VALUES ($"item_id", $"item_desc", $"dept_desc", $"catg_desc", $"prodClass", $"prodBrand", $"item_price", $"item_cost") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_item";
+  LOAD f_store  TO VERTEX Store    VALUES ($"store_id", $"store_name", $"store_type", $"shiptostore", $"autocenter", $"salon", $"zipcode", $"city", $"state", $"market", $"region", $"lat", $"lng") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_store";
+  LOAD f_orders TO VERTEX Orders   VALUES ($"order_nbr", $"order_type", $"order_timestamp") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_orders";
+
+  LOAD f_store  TO EDGE store_location VALUES ($"store_id", $"zipcode") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_store";
+ 
+  LOAD f_orders TO EDGE profile_purchase VALUES ($"user_id", $"order_nbr") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_orders";
+  LOAD f_orders TO EDGE order_store VALUES ($"order_nbr", $"store_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_orders";
+  LOAD f_orders TO EDGE order_items VALUES ($"order_nbr", $"item_id", $"order_timestamp", $"item_qty", $"item_cost", $"item_price", _, _, $"item_profit") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_orders";
+
+}
+
+RUN LOADING JOB customer360_load_orders
+

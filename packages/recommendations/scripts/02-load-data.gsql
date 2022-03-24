@@ -1,0 +1,43 @@
+USE GRAPH Recommendations
+
+CREATE LOADING JOB recommendation_loading_job FOR GRAPH Recommendations {
+   DEFINE FILENAME peopleData = "./packages/recommendations/data/people.csv";
+   DEFINE FILENAME friendData = "./packages/recommendations/data/friendships.csv";
+   DEFINE FILENAME movieData = "./packages/recommendations/data/movie.csv";
+   DEFINE FILENAME titlesData = "./packages/recommendations/data/title.basics.tsv";
+   DEFINE FILENAME principalData = "./packages/recommendations/data/name.basics.tsv";
+   DEFINE FILENAME ratingData = "./packages/recommendations/data/title.ratings.tsv";
+   DEFINE FILENAME title2PrinciplaMapData = "./packages/recommendations/data/title.principals.tsv";
+   DEFINE FILENAME genreData = "./packages/recommendations/data/genres.csv";
+   DEFINE FILENAME tagData = "./packages/recommendations/data/tag.csv";
+   DEFINE FILENAME videoData = "./packages/recommendations/data/video.csv";
+   DEFINE FILENAME videoGenreData = "./packages/recommendations/data/video_genre.csv";
+   DEFINE FILENAME keywordsData = "./packages/recommendations/data/video_keyword.csv";
+   DEFINE FILENAME videoPlayData = "./packages/recommendations/data/video_play.csv";
+
+   LOAD peopleData 
+      TO VERTEX Person VALUES ($0, $1, $2, $3, $4, $5), 
+      TO TEMP_TABLE t1(id,favoriteGenres) VALUES ($0, flatten($6,"|",1)) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD principalData TO VERTEX Principal VALUES ($0, $1, $2, $3, $4, $5) USING header="true", QUOTE="double", separator="\t", EOL="\n";
+   LOAD movieData TO VERTEX Movie VALUES ($0, $1, $2) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD titlesData TO VERTEX Title VALUES ($0, $1, $2, $3, $4, $5, $6, $7, $8) USING header="true", QUOTE="double", separator="\t", EOL="\n";
+   LOAD ratingData 
+      TO VERTEX Rating VALUES ($1, $2),
+      TO EDGE getsA VALUES ($0, $1) USING header="true", QUOTE="double", separator="\t", EOL="\n";
+   LOAD genreData TO VERTEX Genre VALUES ($0) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD tagData TO VERTEX Tag VALUES ($0, $1, $2, $3) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD videoData TO VERTEX Video VALUES ($0, $1, $2, $3) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD videoGenreData TO VERTEX Genre VALUES ($0) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD keywordsData 
+      TO VERTEX Keyword VALUES ($0),
+      TO EDGE describedBy VALUES ($0, $1) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD videoPlayData TO VERTEX VideoPlay VALUES ($0, $1, $2, $3, $4) USING header="true", QUOTE="double", separator=",", EOL="\n";
+
+   LOAD friendData TO EDGE isFriendsWith VALUES ($0, $1) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD tagData TO EDGE movie_has_tag VALUES ($1, $2) USING header="true", QUOTE="double", separator=",", EOL="\n";
+   LOAD title2PrinciplaMapData TO EDGE movie_has_tag VALUES ($1, $2) USING header="true", QUOTE="double", separator="\t", EOL="\n";
+   LOAD TEMP_TABLE t1 TO EDGE isAssociatedWith VALUES($0, $2);
+}
+
+RUN LOADING JOB recommendation_loading_job
+DROP JOB recommendation_loading_job

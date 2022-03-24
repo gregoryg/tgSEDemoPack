@@ -1,0 +1,50 @@
+USE GRAPH Customer360
+DROP JOB customer360_load_events
+
+CREATE LOADING JOB customer360_load_events FOR GRAPH Customer360 {
+
+  ###################################################################
+  # define customer group
+  ###################################################################
+  DEFINE FILENAME f_urls        = "./packages/cust360/data/ce_urls.csv";
+  DEFINE FILENAME f_useragent   = "./packages/cust360/data/ce_useragent.csv";
+  DEFINE FILENAME f_browser     = "./packages/cust360/data/ce_browser.csv";
+  DEFINE FILENAME f_events      = "./packages/cust360/data/c360_events_sample.csv";
+  DEFINE FILENAME f_sessions    = "./packages/cust360/data/c360_sessions_sample.csv";
+  DEFINE FILENAME f_ipaddr      = "./packages/cust360/data/c360_ipaddress.csv";
+  DEFINE FILENAME f_device      = "./packages/cust360/data/c360_devices.csv";
+
+
+  DEFINE HEADER hdr_urls      = "page_id", "page_location", "page_menu", "page_item", "item_id", "page_weight", "page_url", "next_page_id";
+  DEFINE HEADER hdr_useragent = "ua_id", "user_agent", "browser", "browser_ver", "device", "device_os", "device_osver", "device_branch", "device_model";
+  DEFINE HEADER hdr_browser   = "browser";
+  DEFINE HEADER hdr_events    = "user_id", "session_id", "event_id", "event_timestamp", "event_type", "event_time", "event_order", "ua_id", "page_url", "prev_page_url", "ad_id";
+  DEFINE HEADER hdr_sessions  = "user_id", "session_id", "session_timestamp", "ua_id", "browser_id", "hostname", "referer", "promotion_id", "session_time", "device_id", "ip_address", "event_cnt", "view_cnt", "click_cnt", "cart_flg", "purch_flg";
+  DEFINE HEADER hdr_ipaddr  = "ipaddress", "ip_type", "ip_source";
+  DEFINE HEADER hdr_device  = "device_id", "device_type", "device_source";
+
+  ###################################################################
+  # Sessions and Events
+  ###################################################################
+  LOAD f_urls      TO VERTEX urlPages  VALUES ($"page_url", $"page_location", $"page_menu", $"page_item") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_urls";
+  LOAD f_useragent TO VERTEX UserAgent VALUES ($"ua_id", $"user_agent") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_useragent";
+  LOAD f_browser   TO VERTEX Browser   VALUES ($"browser") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_browser";
+  LOAD f_events    TO VERTEX Events    VALUES ($"event_id", $"event_timestamp", $"event_type", $"event_time", $"event_order", $"page_url", $"prev_page_url") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_events";
+  LOAD f_events    TO EDGE   event_url   VALUES ($"event_id", $"page_url") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_events";
+  LOAD f_events    TO EDGE   event_ads   VALUES ($"event_id", $"ad_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_events";
+  LOAD f_events    TO EDGE   session_events    VALUES ($"session_id",$"event_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_events";
+
+  LOAD f_ipaddr  TO VERTEX IpAddress VALUES ($"ipaddress", $"ip_type", $"ip_source") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_ipaddr";
+  LOAD f_device  TO VERTEX Device    VALUES ($"device_id", $"device_type") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_device";
+
+  LOAD f_sessions  TO VERTEX Sessions          VALUES ($"session_id",$"session_timestamp", $"hostname", $"referer", $"session_time", $"ip_address", $"event_cnt", $"view_cnt", $"click_cnt") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_sessions";
+  LOAD f_sessions  TO EDGE   session_browser   VALUES ($"session_id",$"browser_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_sessions";
+  LOAD f_sessions  TO EDGE   session_useragent VALUES ($"session_id",$"ua_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_sessions";
+  LOAD f_sessions  TO EDGE   session_ipaddr    VALUES ($"session_id",$"ip_address") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_sessions";
+  LOAD f_sessions  TO EDGE   session_device    VALUES ($"session_id",$"device_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_sessions";
+  LOAD f_sessions  TO EDGE  profile_sessions VALUES ($"user_id", $"session_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_sessions";
+
+}
+
+RUN LOADING JOB customer360_load_events
+

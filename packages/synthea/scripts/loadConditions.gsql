@@ -1,0 +1,18 @@
+drop job loadConditions
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+Create loading job loadConditions  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Conditions values ($0, $5, $6, $1, $2),
+        to vertex _SnomedCode values ($5, $6),
+        to edge _CONDITION_CODE values ($0, $5),
+        to edge _PATIENT_HAS_CONDITION values ($0, $3),
+        to EDGE _ENCOUNTER_FOR_CONDITION values ($0, $4)
+        using header="true", separator=",";
+}
+END

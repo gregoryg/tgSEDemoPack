@@ -1,0 +1,20 @@
+drop job loadCareplans
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadCareplans  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Careplans values ($0, $6, $1, $2),
+        to vertex _SnomedCode values ($5, $6),
+        to vertex _SnomedCode values ($7, $8),
+        to edge _PATIENT_HAS_CAREPLAN values ($0, $3),
+        to edge _ENCOUNTER_FOR_CAREPLAN values ($0, $4),
+        to edge _CAREPLAN_CODE values ($0, $5),
+        to edge _CAREPLAN_REASON_CODE values ($0, $7)
+        using header="true", separator=",";
+    }
+END

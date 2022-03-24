@@ -1,0 +1,20 @@
+drop job loadProcedures
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadProcedures  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Procedures values ($0, $4, $5, $6, $7),
+        to vertex _SnomedCode values ($4, $5),
+        to vertex _SnomedCode values ($7, $8),
+        to edge _PROCEDURE_CODE values ($0, $4),
+        to edge _PROCEDURE_REASON_CODE values ($0, $7),
+        to edge _ENCOUNTER_FOR_PROCEDURE values ($0, $3),
+        to edge _PATIENT_HAS_PROCEDURE values ($0, $2)
+        using header="true", separator=",";
+}
+END

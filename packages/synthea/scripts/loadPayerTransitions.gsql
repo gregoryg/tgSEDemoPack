@@ -1,0 +1,12 @@
+drop job loadPayerTransitions
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadPayerTransitions  {
+
+    define filename f1;
+
+    load f1 to edge _PAYER_TRANSITION values ($3, $0, $1, $2, $4) using header="true", separator=",";
+}
+END

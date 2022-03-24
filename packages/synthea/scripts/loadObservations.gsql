@@ -1,0 +1,18 @@
+drop job loadObservations
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadObservations  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Observations values($0, $1, $4, $5, $6, $7),
+        to vertex _SnomedCode values($4, $5),
+        to edge _OBSERVATION_FOR_PATIENT values($0, $2),
+        to edge _ENCOUNTER_FOR_OBSERVATION values($0, $3),
+        to edge _OBSERVATION_CODE values($0, $4)
+        using header="true", separator=",";
+}
+END

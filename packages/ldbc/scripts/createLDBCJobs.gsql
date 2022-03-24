@@ -1,0 +1,47 @@
+USE GRAPH LDBC
+
+CREATE LOADING JOB loadLDBCData_job FOR GRAPH LDBC {
+   DEFINE FILENAME comment = "./packages/ldbc/data/comments_0_0.csv";
+   DEFINE FILENAME forum = "./packages/ldbc/data/forum_0_0.csv";
+   DEFINE FILENAME organization = "./packages/ldbc/data/organisation_0_0.csv";
+   DEFINE FILENAME person = "./packages/ldbc/data/person_0_0.csv";
+   DEFINE FILENAME place = "./packages/ldbc/data/place_0_0.csv";
+   DEFINE FILENAME post = "./packages/ldbc/data/post_0_0.csv";
+   DEFINE FILENAME tag = "./packages/ldbc/data/tag_0_0.csv";
+   DEFINE FILENAME tagClass = "./packages/ldbc/data/tagclass_0_0.csv";
+
+   DEFINE FILENAME hasCreator = "./packages/ldbc/data/comment_hasCreator_person_0_0.csv";
+   DEFINE FILENAME hasTag = "./packages/ldbc/data/comment_hasTag_tag_0_0.csv";
+   DEFINE FILENAME hasInterest= "./packages/ldbc/data/person_hasInterest_tag_0_0.csv";
+   DEFINE FILENAME Likes= "./packages/ldbc/data/person_likes_post_0_0.csv";
+   DEFINE FILENAME workAt= "./packages/ldbc/data/person_workAt_organisation_0_0.csv";
+   DEFINE FILENAME hasCreator= "./packages/ldbc/data/post_hasCreator_person_0_0.csv";
+   DEFINE FILENAME hasType= "./packages/ldbc/data/tag_hasType_tagclass_0_0.csv";
+   DEFINE FILENAME hasMember= "./packages/ldbc/data/forum_hasMember_person_0_0.csv";
+   DEFINE FILENAME isLocatedAt= "./packages/ldbc/data/person_isLocatedIn_place_0_0.csv";
+   DEFINE FILENAME Knows= "./packages/ldbc/data/person_knows_person_0_0.csv";
+
+   
+   LOAD comment TO VERTEX Comment VALUES ($0, $1, $2, $3, $4, $5);
+   LOAD forum TO VERTEX Forum VALUES ($0, $1);
+   LOAD organization TO VERTEX Organization VALUES ($0, $1, $2, $3);
+   LOAD person TO VERTEX Person VALUES ($0, $1, $2, $3, $4, $5, $6, $7);
+   LOAD person TO VERTEX BrowserUsed VALUES ($0, $7);
+   LOAD place TO VERTEX Place VALUES ($0, $1, $2, $3);
+   LOAD post TO VERTEX Post VALUES ($0, $1, $2, $3, $4, $5, $6, $7);
+   LOAD tag TO VERTEX Tag VALUES ($0, $1, $2);
+   LOAD tagClass TO VERTEX Tag VALUES ($0, $1, $2);
+   
+   LOAD hasCreator TO EDGE Has_Creator VALUES($0, $1);
+  
+   LOAD hasFriend TO EDGE hasFriend VALUES($0, $1);
+   LOAD workAt TO EDGE WorksAt VALUES($0, $1);
+   LOAD hasInterest TO EDGE Has_Interest VALUES($0, $1);
+   LOAD isLocatedAt TO EDGE Is_Located_At VALUES($0, $1);
+
+}
+END
+
+RUN LOADING JOB loadLDBCData_job
+DROP JOB loadLDBCData_job
+

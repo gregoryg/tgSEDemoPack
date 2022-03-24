@@ -1,0 +1,20 @@
+drop job loadOrganizations
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadOrganizations  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Organizations values ($0, $1, $9, $10, $8),
+        to vertex _Address values (gsql_concat($6, $7), $2, $6, $7),
+        to edge _ADDRESS_CITY values (gsql_concat($6, $7), $3),
+        to EDGE _ADDRESS_ZIPCODE values (gsql_concat($6, $7), $5),
+        to edge _ADDRESS_COUNTY values (gsql_concat($6, $7), $11),
+        to edge _ORGANIZATION_ADDRESS values ($0, gsql_concat($6, $7))
+        using header="true", separator=",";
+
+}
+END

@@ -1,0 +1,26 @@
+USE GRAPH Entity_Resolution
+
+CREATE LOADING JOB loadEntityResolutionData_job FOR GRAPH Entity_Resolution {
+   DEFINE FILENAME entities = "./packages/entityResMDM/data/entity.csv";
+
+   LOAD entities TO VERTEX Account VALUES ($"id", $"first_name", $"last_name", $"gender") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO VERTEX Address VALUES ($"id", $"streetAddress", $"city", $"state") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO VERTEX LastName VALUES ($"id", $"last_name") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO VERTEX Email VALUES ($"id", $"email") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO VERTEX IP VALUES ($"id", $"ip_address") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO VERTEX Device VALUES ($"id", $"device") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO VERTEX DOB VALUES ($"id", $"dob") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO VERTEX Phone VALUES ($"id", $"phone") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO VERTEX Username VALUES ($"id", $"username") USING header="true", separator=",", EOL="\n";
+
+   LOAD entities TO EDGE Has_Address VALUES($"id", $"streetAddress") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO EDGE Has_IP VALUES($"id", $"ip_address") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO EDGE Has_Email VALUES($"id", $"email") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO EDGE Has_Last_Name VALUES($"id", $"last_name") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO EDGE Has_Device VALUES($"id", $"city") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO EDGE Has_Phone VALUES($"id", $"ip_address") USING header="true", separator=",", EOL="\n";
+   LOAD entities TO EDGE Has_Address VALUES($"id", $"state") USING header="true", separator=",", EOL="\n";
+}
+
+RUN LOADING JOB loadEntityResolutionData_job
+DROP JOB loadEntityResolutionData_job

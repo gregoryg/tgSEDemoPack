@@ -1,0 +1,15 @@
+drop job loadAttributes
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadAttributes  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Attribute values($1, $2),
+        to eDGe _PATIENT_HAS_ATTRIBUTE values($0, $1)
+        using header="true", separator=",";
+}
+END

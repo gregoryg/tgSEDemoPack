@@ -1,0 +1,34 @@
+USE GLOBAL
+DROP GRAPH Recommendations
+
+CREATE GRAPH Recommendations()
+USE GRAPH Recommendations
+
+BEGIN
+CREATE SCHEMA_CHANGE JOB recommendation_change_job FOR GRAPH Recommendations {
+    ADD VERTEX Person(PRIMARY_ID id STRING, first_name STRING, last_name STRING, age STRING, gender STRING, language STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+   	ADD VERTEX Movie(PRIMARY_ID movieId STRING, title STRING, genres STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+    ADD VERTEX Genre(PRIMARY_ID genre STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+    ADD VERTEX Title(PRIMARY_ID tconst STRING, titleType STRING, primaryTitle STRING, originalTitle STRING, isAdult STRING, startYear STRING, endYear STRING, runtimeMinutes STRING, genres STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+    ADD VERTEX Rating(PRIMARY_ID averageRating DOUBLE, numVotes INT) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+    ADD VERTEX Principal(PRIMARY_ID nconst STRING, primaryName STRING, birthYear INT, deathYear INT, timestamp STRING, knownForTitles STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+    ADD VERTEX Tag(PRIMARY_ID userId STRING, movieId STRING, tag STRING, timestamp STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+    ADD VERTEX Video(PRIMARY_ID ID STRING, runtime STRING, title STRING, release_date STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+    ADD VERTEX Keyword(PRIMARY_ID keyword STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+    ADD VERTEX VideoPlay(PRIMARY_ID id STRING, account STRING, video STRING, play_date STRING, play_duration STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+
+    ADD UNDIRECTED EDGE isFriendsWith(FROM Person, TO Person);
+    ADD UNDIRECTED EDGE movie_has_tag(FROM Movie, TO Tag);
+    ADD UNDIRECTED EDGE hasFavorite(FROM Person, TO Genre);
+    ADD UNDIRECTED EDGE movieBelongsTo(FROM Movie, TO Genre);
+    ADD UNDIRECTED EDGE isAssociatedWith(FROM Principal, TO Title);
+    ADD UNDIRECTED EDGE videoBelongsTo(FROM Video, TO Genre);
+    ADD UNDIRECTED EDGE hasDetail(FROM Movie, TO Title);
+    ADD UNDIRECTED EDGE playsA(FROM Person, TO VideoPlay);
+    ADD UNDIRECTED EDGE describedBy(FROM Video, TO Keyword);
+    ADD UNDIRECTED EDGE getsA(FROM Title, TO Rating);
+}
+END
+
+RUN SCHEMA_CHANGE JOB recommendation_change_job
+DROP JOB recommendation_change_job

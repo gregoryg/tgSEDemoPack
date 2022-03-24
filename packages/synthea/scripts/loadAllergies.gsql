@@ -1,0 +1,19 @@
+drop job loadAllergies
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+
+create loading job loadAllergies  {
+
+    define filename f1;
+
+    load f1
+        to VERTEX _Allergies values ($0, $5, $6, $1, $2),
+        to VERTEX _SnomedCode values ($5, $6),
+        to EDGE _PATIENT_HAS_ALLERGY values ($0, $3),
+        to EDGE _ALLERGY_CODE values ($0, $5),
+        to EDGE _ENCOUNTER_FOR_ALLERGY values ($0, $4)
+        using header="true", separator=",";
+    }
+END

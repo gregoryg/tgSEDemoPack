@@ -1,0 +1,20 @@
+USE GLOBAL
+DROP GRAPH IMDB
+
+CREATE GRAPH IMDB()
+USE GRAPH IMDB
+
+CREATE SCHEMA_CHANGE JOB imdb_schema_job FOR GRAPH IMDB {
+
+	ADD VERTEX Movie(PRIMARY_ID tconst STRING, titleType STRING, primaryTitle STRING, originalTitle STRING, isAdult STRING, startYear INT, endYear INT, runtimeMinutes INT, genres STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+	ADD VERTEX Actor(PRIMARY_ID nconst STRING, primaryName STRING, birthYear INT, deathYear INT, primaryProfession STRING, knownForTitles STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+	ADD VERTEX Rating(PRIMARY_ID tconst STRING, averageRating FLOAT, numVotes INT) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+
+	ADD UNDIRECTED EDGE isPrincipalIn(FROM Actor, TO Movie);
+	ADD UNDIRECTED EDGE hasRating(FROM Movie, TO Rating);
+}
+
+RUN SCHEMA_CHANGE JOB imdb_schema_job
+DROP JOB imdb_schema_job
+
+

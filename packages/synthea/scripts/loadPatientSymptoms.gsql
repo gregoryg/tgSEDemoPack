@@ -1,0 +1,15 @@
+drop job loadPatientSymptoms
+
+USE GRAPH SyntheaGrap
+
+BEGIN
+create loading job loadPatientSymptoms  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Symptoms values($0, $8, $9, $7),
+        to edge _PATIENT_HAS_SYMPTOM values($1, $0, $5, $6)
+        using header="true", separator=",";
+}
+END

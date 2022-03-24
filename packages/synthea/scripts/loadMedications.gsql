@@ -1,0 +1,21 @@
+drop job loadMedications
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadMedications  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Medication values ($0, $6, $7, $1, $2, $8, $9, $10, $11),
+        to vertex _SnomedCode values ($6, $7),
+        to vertex _SnomedCode values ($12, $13),
+        to edge _MEDICATION_PAYER values ($0, $4),
+        to edge _PATIENT_HAS_MEDICATION values ($0, $3),
+        to edge _MEDICATION_REASON_CODE values ($0, $12),
+        to edge _MEDICATION_CODE values ($0, $6),
+        to edge _ENCOUNTER_FOR_MEDICATION values ($0, $5)
+        USING HEADER="true", separator=",";
+}
+END

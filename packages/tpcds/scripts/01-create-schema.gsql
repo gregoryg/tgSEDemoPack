@@ -1,0 +1,23 @@
+USE GLOBAL
+DROP GRAPH TPCDS
+
+CREATE GRAPH TPCDS()
+USE GRAPH TPCDS
+
+CREATE SCHEMA_CHANGE JOB tpc_ds_schema_job FOR GRAPH TPCDS {
+
+	ADD VERTEX Customer(PRIMARY_ID c_customer_sk STRING, c_customer_id STRING, c_current_cdemo_sk STRING, c_current_hdemo_sk STRING, c_current_addr_sk STRING, c_first_shipto_date_sk STRING, c_first_sales_date_sk STRING, c_salutation STRING, c_first_name STRING, c_last_name STRING, c_preferred_cust_flag STRING, c_birth_day STRING, c_birth_month STRING, c_birth_year STRING, c_birth_country STRING, c_login STRING, c_email_address STRING, c_last_review_date STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+	ADD VERTEX Date_Dim(PRIMARY_ID d_date_sk STRING, d_date_id STRING, d_date STRING, d_month_seq STRING, d_week_seq STRING, d_quarter_seq STRING, d_year STRING, d_dow STRING, d_moy STRING, d_dom STRING, d_qoy STRING, d_fy_year STRING, d_fy_quarter_seq STRING, d_fy_week_seq STRING, d_day_name STRING, d_quarter_name STRING, d_holiday STRING, d_weekend STRING, d_following_holiday STRING, d_first_dom STRING, d_last_dom STRING, d_same_day_ly STRING, d_same_day_lq STRING, d_current_day STRING, d_current_week STRING, d_current_month STRING, d_current_quarter STRING, d_current_year STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+	ADD VERTEX Product_Item(PRIMARY_ID i_item_sk STRING, i_item_id STRING, i_rec_start_date STRING, i_rec_end_date STRING, i_item_desc STRING, i_current_price STRING, i_wholesale_cost STRING, i_brand_id STRING, i_brand STRING, i_class_id STRING, i_class STRING, i_category_id STRING, i_category STRING, i_manufact_id STRING, i_manufact STRING, i_size STRING, i_formulation STRING, i_color STRING, i_units STRING, i_container STRING, i_manager_id STRING, i_product_name STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+	ADD VERTEX Ship_Mode(PRIMARY_ID sm_ship_mode_sk STRING, sm_ship_mode_id STRING, sm_type STRING, sm_code STRING, sm_carrier STRING, sm_contract STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+	ADD VERTEX Store_Sales(PRIMARY_ID ss_sold_date_sk STRING, ss_sold_time_sk STRING, ss_item_sk STRING, ss_customer_sk STRING, ss_cdemo_sk STRING, ss_hdemo_sk STRING, ss_addr_sk STRING, ss_store_sk STRING, ss_promo_sk STRING, ss_ticket_number STRING, ss_quantity STRING, ss_wholesale_cost STRING, ss_list_price STRING, ss_sales_price STRING, ss_ext_discount_amt STRING, ss_ext_sales_price STRING, ss_ext_wholesale_cost STRING, ss_ext_list_price STRING, ss_ext_tax STRING, ss_coupon_amt STRING, ss_net_paid STRING, ss_net_paid_inc_tax STRING, ss_net_profit STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+	ADD VERTEX Store(PRIMARY_ID s_store_sk STRING, s_store_id STRING, s_rec_start_date STRING, s_rec_end_date STRING, s_closed_date_sk STRING, s_store_name STRING, s_number_employees STRING, s_floor_space STRING, s_hours STRING, s_manager STRING, s_market_id STRING, s_geography_class STRING, s_market_desc STRING, s_market_manager STRING, s_division_id STRING, s_division_name STRING, s_company_id STRING, s_company_name STRING, s_street_number STRING, s_street_name STRING, s_street_type STRING, s_suite_number STRING, s_city STRING, s_county STRING, s_state STRING, s_zip STRING, s_country STRING, s_gmt_offset STRING, s_tax_precentage STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+	ADD VERTEX Demographic(PRIMARY_ID cd_demo_sk STRING, cd_gender STRING, cd_marital_status STRING, cd_education_status STRING, cd_purchase_estimate STRING, cd_credit_rating STRING, cd_dep_count STRING, cd_dep_employed_count STRING, cd_dep_college_count STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true";
+
+	ADD UNDIRECTED EDGE Purchases(FROM Customer, TO Store_Sales);
+	ADD UNDIRECTED EDGE PurchasedAt(FROM Store_Sales, TO Store);
+	ADD UNDIRECTED EDGE Includes(FROM Store_Sales, TO Product_Item);
+}
+
+RUN SCHEMA_CHANGE JOB tpc_ds_schema_job
+DROP JOB tpc_ds_schema_job

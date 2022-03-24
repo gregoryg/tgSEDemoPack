@@ -1,0 +1,54 @@
+USE GRAPH Customer360
+DROP JOB customer360_load_er
+
+CREATE LOADING JOB customer360_load_er FOR GRAPH Customer360 {
+
+
+  ###################################################################
+  # define customer group
+  ###################################################################
+  DEFINE FILENAME f_profile = "./packages/cust360/data/c360_profile.csv";
+  DEFINE FILENAME f_friends = "./packages/cust360/data/ce_friends.csv";
+  DEFINE FILENAME f_ipaddr  = "./packages/cust360/data/c360_ipaddress.csv";
+  DEFINE FILENAME f_device  = "./packages/cust360/data/c360_devices.csv";
+  DEFINE FILENAME f_email   = "./packages/cust360/data/c360_emails.csv";
+  DEFINE FILENAME f_phone   = "./packages/cust360/data/c360_phones.csv";
+  DEFINE FILENAME f_address = "./packages/cust360/data/c360_address.csv";
+  DEFINE FILENAME f_source  = "./packages/cust360/data/ce_datasource.csv";
+  DEFINE FILENAME f_geog    = "./packages/cust360/data/ce_geog.csv";
+  
+  DEFINE HEADER hdr_profile = "user_id", "full_name", "user_name", "email_address", "cookie", "gender", "ssn", "birthdate", "job", "company", "creditcard", "ethnicity", "married", "income", "education", "address_id", "ipaddress", "phone_number", "device", "source_id";
+  DEFINE HEADER hdr_friends = "user_id", "friend_id", "friend_date", "friend_type";
+  DEFINE HEADER hdr_ipaddr  = "ipaddress", "ip_type", "ip_source";
+  DEFINE HEADER hdr_device  = "device_id", "device_type", "device_source";
+  DEFINE HEADER hdr_email   = "email", "email_type", "emal_perm", "email_freq", "email_source";
+  DEFINE HEADER hdr_phone   = "phone_number", "phone_company", "phone_network", "phone_type", "phone_5g", "phone_wifi", "phone_perm", "phone_freq";
+  DEFINE HEADER hdr_address = "address_id", "address_type", "address_line", "city", "state", "zip";
+  DEFINE HEADER hdr_source  = "source_id", "source_name", "source_type";
+  DEFINE HEADER hdr_geog    = "address_id","zipcode","city","state_abbr","state","county_id","county_name","msa_id","msa_name","lat","lng","population","market_id","market_name","region_id","region_name","store_id","other";
+
+  ###################################################################
+  # Entity Resolution
+  ###################################################################
+  LOAD f_ipaddr  TO VERTEX IpAddress  VALUES ($"ipaddress", $"ip_type", $"ip_source") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_ipaddr";
+  LOAD f_device  TO VERTEX Device     VALUES ($"device_id", $"device_type") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_device";
+  LOAD f_email   TO VERTEX Email      VALUES ($"email", $"email_type", $"emal_perm", $"email_freq") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_email";
+  LOAD f_phone   TO VERTEX Phone      VALUES ($"phone_number", $"phone_company", $"phone_network", $"phone_type", $"phone_5g", $"phone_wifi", $"phone_perm", $"phone_freq") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_phone";
+  LOAD f_address TO VERTEX Address    VALUES ($"address_id", $"address_type", $"address_line", $"city", $"state", $"zip") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_address";
+  LOAD f_source  TO VERTEX DataSource VALUES ($"source_id", $"source_name", $"source_type") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_source";
+  LOAD f_geog    TO VERTEX Location   VALUES ($"zipcode", $"city", $"state", $"market_name", $"region_name", $"population", $"lat" ,$"lng") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_geog";
+  LOAD f_profile TO VERTEX Profile    VALUES ($"user_id",$"full_name", $"user_name", $"gender", $"birthdate", $"job", $"ethnicity", $"married", $"income",  $"education") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_profile";
+
+  LOAD f_address TO EDGE address_location VALUES ($"address_id", $"zip") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_address";
+  LOAD f_profile TO EDGE profile_ipaddress VALUES ($"user_id", $"ipaddress") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_profile";
+  LOAD f_profile TO EDGE profile_device VALUES ($"user_id", $"device") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_profile";
+  LOAD f_profile TO EDGE profile_email VALUES ($"user_id", $"email_address") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_profile";
+  LOAD f_profile TO EDGE profile_phone VALUES ($"user_id", $"phone_number") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_profile";
+  LOAD f_profile TO EDGE profile_address VALUES ($"user_id", $"address_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_profile";
+  LOAD f_profile TO EDGE profile_datasource VALUES ($"user_id", $"source_id") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_profile";
+  LOAD f_friends TO EDGE profile_friends VALUES ($"user_id", $"friend_id", $"friend_type", $"friend_date") USING header="true", separator=",", USER_DEFINED_HEADER="hdr_friends";
+
+}
+
+RUN LOADING JOB customer360_load_er
+

@@ -1,0 +1,20 @@
+USE GRAPH IMDB
+
+BEGIN
+CREATE LOADING JOB load_IMDB_Data_job FOR GRAPH IMDB {
+   DEFINE FILENAME actorData = "./packages/imdb/data/name.basics.sample.tsv";
+   DEFINE FILENAME titleData = "./packages/imdb/data/title.basics.justmovies.sample.tsv";
+   DEFINE FILENAME title2principalMapData = "./packages/imdb/data/title.principals.sample.tsv";
+   DEFINE FILENAME ratingData = "./packages/imdb/data/title.ratings.sample.tsv";
+
+   LOAD actorData TO VERTEX Actor VALUES ($"nconst", $"primaryName", $"birthYear", $"deathYear", $"primaryProfession", $"knownForTitles") USING header="true", separator="\t", EOL="\n";
+   LOAD titleData TO VERTEX Movie VALUES ($"tconst", $"titleType", $"primaryTitle", $"originalTitle", $"isAdult", $"startYear", $"endYear", $"runtimeMinutes", $"genres") USING header="true", separator="\t", EOL="\n";
+   LOAD ratingData TO VERTEX Rating VALUES ($"tconst", $"averageRating", $"numVotes") USING header="true", separator="\t", EOL="\n";
+
+   LOAD title2principalMapData to EDGE isPrincipalIn VALUES ($"nconst", $"tconst") USING header="true", separator="\t", EOL="\n";
+   LOAD title2principalMapData to EDGE hasRating VALUES ($"tconst", $"tconst") USING header="true", separator="\t", EOL="\n";
+}
+END
+
+RUN LOADING JOB load_IMDB_Data_job
+DROP JOB load_IMDB_Data_job

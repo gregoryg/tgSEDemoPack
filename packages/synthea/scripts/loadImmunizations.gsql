@@ -1,0 +1,19 @@
+drop job loadImmunizations
+
+USE GRAPH SyntheaGraph
+
+BEGIN
+create loading job loadImmunizations  {
+
+    define filename f1;
+
+    load f1
+        to vertex _Immunizations values ($0, $4, $5, $1, $6),
+        to vertex _SnomedCode values ($4, $5),
+        to edge _IMMUNIZATION_CODE values ($0, $4),
+        to edge _PATIENT_HAS_IMMUNIZATION values ($0, $2),
+        to edge _ENCOUNTER_FOR_IMMUNIZATION values ($0, $3)
+        using header="true", separator=",";
+
+}
+END

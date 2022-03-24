@@ -1,0 +1,94 @@
+USE GLOBAL
+DROP GRAPH SyntheaGraph
+
+CREATE GRAPH SyntheaGraph()
+USE GRAPH SyntheaGraph
+
+CREATE SCHEMA_CHANGE JOB synthea_schema_job FOR GRAPH SyntheaGraph {
+    ADD VERTEX _Gender(PRIMARY_ID gender_id STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Race(PRIMARY_ID race_id STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Ethnicity(PRIMARY_ID ethnicity_id STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Address(PRIMARY_ID address_id STRING, name STRING, lat DOUBLE, lon DOUBLE) WITH primary_id_as_attribute="true";
+    ADD VERTEX _City(PRIMARY_ID city_id STRING, cityName STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _State(PRIMARY_ID state_id STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _County(PRIMARY_ID county_id STRING, countyName STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _ZipCode(PRIMARY_ID zip_id STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _SnomedCode(PRIMARY_ID snomed_code STRING, description STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Patient(PRIMARY_ID patient_id STRING, lastName STRING, firstName STRING, maiden STRING, birthday DATETIME, ssn STRING, license STRING, passport STRING, healthcareExpense DOUBLE, healthcareCoverage DOUBLE, suffix STRING, prefix STRING, maritalStatus STRING, birthplace STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Allergies(PRIMARY_ID allergy_id STRING, allergy_code STRING, description STRING, startDate DATETIME, endDate DATETIME) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Device(PRIMARY_ID UDI_code STRING, description STRING, startDate DATETIME, endDate DATETIME) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Medication(PRIMARY_ID medication_id STRING, medication_code STRING, description STRING, startDate DATETIME, endDate DATETIME, baseCost DOUBLE, payerCoverage DOUBLE, dispenses INT, totalCost DOUBLE) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Procedures(PRIMARY_ID procedure_id STRING, procedure_code STRING, description STRING, baseCost INT, dateOfProcedure DaTETIME) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Careplans(PRIMARY_ID careplan_id STRING, description STRING, startDate DATETIME, endDate DATETIME) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Conditions(PRIMARY_ID condition_id STRING, condition_code STRING, description STRING, startDate DATETIME, endDate DATETIME) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Immunizations(PRIMARY_ID immunization_id STRING, immunization_code STRING, description STRING, dateOfImmunization DATETIME, baseCost DOUBLE) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Observations(PRIMARY_ID observation_id STRING, dateOfObservation DATETIME, observation_code STRING, description STRING, obsValue STRING, units STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Organizations(PRIMARY_ID organization_id STRING, name STRING, revenue DOUBLE, utilization INT, phone STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Providers(PRIMARY_ID provider_id STRING, name STRING, utilization INT, speciality STRING) WITH primary_id_as_attribute="true";
+    ADD VERTEX _ImagingStudies(PRIMARY_ID imaging_id STRING, bodySiteCode STRING, bodySiteDescription STRING, modalityCode STRING, modalityDescription STRING, SOPCode STRING, SOPDescription STRING, dateOfImage DATETIME) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Payer(PRIMARY_ID payer_id STRING, name STRING, phone STRING, amountCovered DOUBLE, amountUncovered DOUBLE, revenue DOUBLE, coveredEncounters INT, uncoveredEncounters INT, coveredMedications INT, uncoveredMedications INT, coveredProcedures INT, uncoveredProcedures INT, coveredImmunizations INT, uncoveredImmunizations INT, uniqueCustomers INT, QOLS_Avg DOUBLE, memberMonths INT) WITH primary_id_as_attribute="true";
+    ADD VERTEX _Encounter(PRIMARY_ID encounter_id STRING, baseEncounterCost DOUBLE, totalClaimCost DOUBLE, payerCoverage DOUBLE, classType STRING, startTime DATETIME, endTime DATETIMe) WITH primary_id_as_attribute="true";
+    ADD vertex _Notes(PRIMARY_ID note_id STRING, chiefComplaint STRING, historyOfPresentIllness STRING, socialHistory STRING, allergies STRING, medications STRING, assessment STRING, plan STRING) with primary_id_as_attribute="true";
+    ADD vertex _Symptoms(PRIMARY_ID symptom_id STRING, symptom STRING, symptomValue INT, pathology STRING) with primary_id_as_attribute="true";
+    ADD vertex _Attribute(primary_id label STRING, attributeValue INT) with primary_id_as_attribute="true";
+
+    ADD undirected edge _PATIENT_HAS_ATTRIBUTE(from _Patient, To _Attribute);
+    ADD UNDIRECTED edge _PATIENT_HAS_SYMPTOM(From _Patient, To _Symptoms, ageBegin INT, ageEnd INT);
+    ADD Undirected edge _PATIENT_NOTE(FROM _Patient, to _Notes, dateOfNote DATETIME);
+    ADD UNDIRECTED EDGE _ADDRESS_CITY(From _Address, To _City);
+    ADD UNDIRECTED EDGE _ADDRESS_COUNTY(From _Address, To _County);
+    ADD UNDIRECTED EDGE _ADDRESS_ZIPCODE(From _Address, To _ZipCode);
+    ADD UNDIRECTEd edge _STATE_HAS_COUNTY(From _State, To _County);
+    ADD UNDIRECTEd edge _COUNTY_HAS_CITY(From _County, To _City);
+    ADD UNDIRECTEd edge _CITY_HAS_ZIPCODE(From _City, To _ZipCode);
+    ADD UNDIRECTED EDGE _PATIENT_GENDER(FROM _Patient, TO _Gender);
+    ADD UNDIRECTED EDGE _PATIENT_ADDRESS(FROM _Patient, To _Address);
+    ADD UNDIRECTED EDGE _PATIENT_RACE(FROM _Patient, TO _Race);
+    ADD UNDIRECTED EDGE _PATIENT_ETHNICITY(FROM _Patient, TO _Ethnicity);
+    ADD UNDIRECTED EDGE _PATIENT_HAS_ALLERGY(FROM _Allergies, to _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_ALLERGY(FROM _Allergies, TO _Encounter);
+    ADD UNDIRECTED EDGE _ALLERGY_CODE(FROM _Allergies, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _PATIENT_HAS_DEVICE(FROM _Device, TO _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_DEVICE(FROM _Device, TO _Encounter);
+    ADD UNDIRECTED EDGE _DEVICE_CODE(FROM _Device, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _PATIENT_HAS_MEDICATION(FROM _Medication, TO _Patient);
+    ADD UNDIRECTED EDGE _MEDICATION_PAYER(FROM _Medication, TO _Payer);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_MEDICATION(FROM _Medication, TO _Encounter);
+    ADD UNDIRECTED EDGE _MEDICATION_REASON_CODE(FROM _Medication, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _MEDICATION_CODE(FROM _Medication, To _SnomedCode);
+    ADD UNDIRECTED EDGE _PROCEDURE_CODE(FROM _Procedures, To _SnomedCode);
+    ADD UNDIRECTED EDGE _PROCEDURE_REASON_CODE(FROM _Procedures, To _SnomedCode);
+    ADD UNDIRECTED EDGE _PATIENT_HAS_PROCEDURE(FROM _Procedures, To _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_PROCEDURE(FROM _Procedures, To _Encounter);
+    ADD UNDIRECTED EDGE _PATIENT_HAS_CAREPLAN(FROM _Careplans, TO _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_CAREPLAN(FROM _Careplans, TO _Encounter);
+    ADD UNDIRECTED EDGE _CAREPLAN_CODE(FROM _Careplans, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _CAREPLAN_REASON_CODE(FROM _Careplans, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _PATIENT_HAS_CONDITION(FROM _Conditions, TO _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_CONDITION(FROM _Conditions, TO _Encounter);
+    ADD UNDIRECTED EDGE _CONDITION_CODE(FROM _Conditions, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _PATIENT_HAS_IMMUNIZATION(FROM _Immunizations, TO _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_IMMUNIZATION(FROM _Immunizations, TO _Encounter);
+    ADD UNDIRECTED EDGE _IMMUNIZATION_CODE(FROM _Immunizations, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _OBSERVATION_FOR_PATIENT(FROM _Observations, TO _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_OBSERVATION(FROM _Observations, TO _Encounter);
+    ADD UNDIRECTED edge _OBSERVATION_CODE(From _Observations, To _SnomedCode);
+    ADD UNDIRECTED EDGE _ORGANIZATION_ADDRESS(From _Organizations, To _Address);
+    ADD UNDIRECTED EDGE _PROVIDER_HAS_ORGANIZATION(FROM _Providers, TO _Organizations);
+    ADD UNDIRECTED EDGE _PROVIDER_GENDER(FROM _Providers, TO _Gender);
+    ADD UNDIRECTED EDGE _PROVIDER_ADDRESS(From _Providers, To _Address);
+    ADD UNDIRECTED EDGE _PATIENT_HAS_IMAGING(FROM _ImagingStudies, TO _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_IMAGING(FROM _ImagingStudies, TO _Encounter);
+    ADD UNDIRECTED EDGE _IMAGING_CODE(FROM _ImagingStudies, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _PAYER_TRANSITION(FROM _Payer, TO _Patient, startYear DATETIME, endYear DATETIME, ownership STRING);
+    ADD UNDIRECTED EDGE _PAYER_ADDRESS(From _Payer, To _Address);
+    ADD UNDIRECTED EDGE _ENCOUNTER_FOR_PATIENT(FROM _Encounter, TO _Patient);
+    ADD UNDIRECTED EDGE _ENCOUNTER_UNDER_ORGANIZATION(FROM _Encounter, TO _Organizations);
+    ADD UNDIRECTED EDGE _ENCOUNTER_HAS_PROVIDER(FROM _Encounter, TO _Providers);
+    ADD UNDIRECTED EDGE _ENCOUNTER_HAS_PAYER(FROM _Encounter, TO _Payer);
+    ADD UNDIRECTED EDGE _ENCOUNTER_CODE(FROM _Encounter, TO _SnomedCode);
+    ADD UNDIRECTED EDGE _ENCOUNTER_REASON_CODE(FROM _Encounter, TO _SnomedCode);
+}
+
+RUN SCHEMA_CHANGE JOB synthea_schema_job
+DROP JOB synthea_schema_job

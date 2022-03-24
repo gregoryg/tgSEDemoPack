@@ -1,0 +1,47 @@
+USE GRAPH Storage
+
+CREATE LOADING JOB storage_graph_load_job FOR GRAPH Storage {
+   DEFINE FILENAME appAppData = "./packages/NetworkITResOpt/data/APP_APP.csv";
+   DEFINE FILENAME lunData = "./packages/NetworkITResOpt/data/LUN.csv";
+   DEFINE FILENAME serviceManagerData = "./packages/NetworkITResOpt/data/SERVICE_MANAGER.csv";
+   DEFINE FILENAME warningsData = "./packages/NetworkITResOpt/data/warnings.csv";
+   DEFINE FILENAME appServiceData = "./packages/NetworkITResOpt/data/APP_SERVICE.csv";
+   DEFINE FILENAME serverAppData = "./packages/NetworkITResOpt/data/SERVER_APP.csv";
+   DEFINE FILENAME switchData = "./packages/NetworkITResOpt/data/SWITCH.csv";
+
+   LOAD lunData TO EDGE Pool_Lun VALUES($4, $0, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE LUN_Pool VALUES($0, $4, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE Array_Pool VALUES($12, $4, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE Pool_Array VALUES($4, $12, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE LUN_Server VALUES($0, $10, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE Server_LUN VALUES($10, $0, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE Server_LUN VALUES($10, $0, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE LUN_Server VALUES($0, $10, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE LUN_Pool VALUES($0, $4, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE Pool_Lun VALUES($4, $0, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE Array_Pool VALUES($12, $4, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD lunData TO EDGE Pool_Array VALUES($4, $12, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+ 
+   LOAD appServiceData TO EDGE App_Service VALUES($0, $3, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD appServiceData TO EDGE Service_App VALUES($3, $0, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+
+   LOAD serverAppData TO EDGE Service_Manager VALUES($0, $2, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD serverAppData TO EDGE Manager_Service VALUES($2, $0, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+
+   LOAD appAppData TO EDGE AppCall VALUES($0, $1) USING SEPARATOR=",", HEADER="true", EOL="\n";
+
+   LOAD switchData TO EDGE Array_Switch VALUES($0, $2) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD switchData TO EDGE Switch_Host VALUES($2, $0) USING SEPARATOR=",", HEADER="true", EOL="\n";
+
+   LOAD serverAppData TO EDGE App_Server VALUES($2, $0, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD serverAppData TO EDGE Server_App VALUES($0, $2, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+ 
+   LOAD serviceManagerData TO EDGE Manager_Service VALUES($2, $0, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD serviceManagerData TO EDGE Service_Manager VALUES($0, $2, _) USING SEPARATOR=",", HEADER="true", EOL="\n";
+ 
+   LOAD warningsData TO EDGE Alert_App VALUES($0, $2) USING SEPARATOR=",", HEADER="true", EOL="\n";
+   LOAD warningsData TO EDGE AHA_Alert VALUES($0, $1) USING SEPARATOR=",", HEADER="true", EOL="\n";
+  }
+
+RUN LOADING JOB storage_graph_load_job
+DROP JOB storage_graph_load_job
