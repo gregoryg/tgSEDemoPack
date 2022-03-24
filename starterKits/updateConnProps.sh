@@ -131,9 +131,13 @@ echo ''
 echo 'Configure the S3 access token'
 echo ''
 
+
+tg_key_escaped=$(printf '%s\n' "$tg_secret_access_key" | sed -e 's/[\/&]/\\&/g')
+
+
 ## add the keys to the load job template
 sed "s/ACCESSKEYID/${tg_access_key_ID}/g" ./py/tg_createDataSource_orig.py > bob.tmp
-sed "s/SECRETACCESSKEY/${tg_secret_access_key}/g" bob.tmp > ./py/tg_createDataSource.py
+sed "s/SECRETACCESSKEY/${tg_key_escaped}/g" bob.tmp > ./py/tg_createDataSource.py
 rm -rf bob.tmp
 
 ## Write new props to tg.properties file
