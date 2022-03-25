@@ -20,8 +20,7 @@ then
 else
   echo "$file file not found, using defaults"
   ## Default to local docker
-  tg_host='localhost'
-  tg_protocol="http"
+  tg_host='http://localhost'
   tg_username="tigergraph"
   tg_password="tigergraph"
   tg_s3_data_source="s3_data_source"
@@ -34,7 +33,6 @@ echo ''
 echo 'The current property settings are:'
 echo ''
 echo "tg_host = $tg_host"
-echo "tg_protocol = $tg_protocol"
 echo "tg_username = $tg_username"
 echo "tg_password = $tg_password"
 echo "tg_s3_data_source = $tg_s3_data_source"
@@ -60,14 +58,6 @@ then
     tg_host_new=$new_host
 else
     tg_host_new=$tg_host
-fi
-echo ''
-read -p "tg_protocol <$tg_protocol>: " new_tg_protocol
-if [[ ! -z $new_tg_protocol ]];
-then 
-    tg_protocol_new=$new_tg_protocol
-else
-    tg_protocol_new=$tg_host
 fi
 echo ''
 read -p "tg_username <$tg_username>: " new_username
@@ -131,19 +121,20 @@ echo ''
 echo 'Configure the S3 access token'
 echo ''
 
-
-tg_key_escaped=$(printf '%s\n' "$tg_secret_access_key" | sed -e 's/[\/&]/\\&/g')
+## need to escape special chars in any imput
+tg_host_new_escaped=$(printf '%s\n' "$tg_host_new" | sed -e 's/[\/&]/\\&/g')
+tg_host_escaped=$(printf '%s\n' "$tg_host" | sed -e 's/[\/&]/\\&/g')
+tg_key_escaped_new=$(printf '%s\n' "$tg_secret_access_key_new" | sed -e 's/[\/&]/\\&/g')
 
 
 ## add the keys to the load job template
-sed "s/ACCESSKEYID/${tg_access_key_ID}/g" ./py/tg_createDataSource_orig.py > bob.tmp
-sed "s/SECRETACCESSKEY/${tg_key_escaped}/g" bob.tmp > ./py/tg_createDataSource.py
+sed "s/ACCESSKEYID/${tg_access_key_ID_new}/g" ./py/tg_createDataSource.py.orig > bob.tmp
+sed "s/SECRETACCESSKEY/${tg_key_escaped_new}/g" bob.tmp > ./py/tg_createDataSource.py
 rm -rf bob.tmp
 
 ## Write new props to tg.properties file
 echo "update the props filename"
 echo "tg_host=$tg_host_new" > ./tg.properties
-echo "tg_protocol=$tg_protocol_new" >> ./tg.properties
 echo "tg_username=$tg_username_new" >> ./tg.properties
 echo "tg_password=$tg_password_new" >> ./tg.properties
 echo "tg_s3_data_source=$tg_datasource_new" >> ./tg.properties
@@ -155,12 +146,11 @@ echo "tg_secret_access_key=$tg_secret_access_key_new" >> ./tg.properties
 for file in "./py/"*.py
   do
     ##echo "adding props to file: $file"
-    sed "s/${tg_host}/${tg_host_new}/g" $file > bob.tmp
+    sed "s/${tg_host_escaped}/${tg_host_new_escaped}/g" $file > bob.tmp
     sed "s/${tg_username}/${tg_username_new}/g" bob.tmp > bob2.tmp
     sed "s/${tg_password}/${tg_password_new}/g" bob2.tmp > bob3.tmp
-    sed "s/${tg_protocol}/${tg_protocol_new}/g" bob3.tmp > bob4.tmp
 
-    mv bob4.tmp $file
+    mv bob3.tmp $file
     rm -rf bob*.tmp
   done
 
