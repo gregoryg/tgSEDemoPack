@@ -6,13 +6,20 @@ echo ''
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo "For a local, gsql based install, Tigergraph must be installed..."
+echo ''
+echo "First, for local installs, TigerGraph needs to be installed and services must be running. Lets verify that...."
 command -v gadmin >/dev/null 2>&1 || { echo -e >&2 "${RED}TigerGraph is not installed on this host, local install not available.${NC}"; }
 
-echo "Ensure TigerGraph is currently running (check gadmin) and gsql is available"
+echo ''
 resp=$(gsql -v 2>&1)
 if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
-    echo -e "${RED}Tigergraph does not appear to be running on this host, please start it using gadmin.${NC}"
+    echo -e "${RED}Tigergraph does not appear to be running on this host.${NC}"
+    echo 'You can still continue with a remote (python) installed for another host,'
+    read -p "  Do you want to continue? (y/n): " doRemote
+    if [[ "$doRemote" != *"y"* || "$doRemote" != *"yes"* ]]; then
+        echo "Make sure to start TG and try again..."
+        exit 0
+    fi
 else 
 	echo "Services up and running"
 fi
