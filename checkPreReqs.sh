@@ -24,11 +24,14 @@ if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
             [Yy]* ) 
                 "Continue checks..."
                 break
+                ;;
             [Nn]* ) 
                 "Setup tigergraph and rerun the installer"
                 exit
+                ;;
             * ) echo 
                 "Please answer yes or no."
+                ;;
         esac
     done
 else 
