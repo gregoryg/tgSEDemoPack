@@ -8,14 +8,15 @@ NC='\033[0m' # No Color
 
 echo ''
 echo "First, for local installs, TigerGraph needs to be installed and services must be running. Lets verify that...."
+echo ''
+
 command -v gadmin >/dev/null 2>&1 || { echo -e >&2 "${RED}TigerGraph is not installed on this host, local install not available.${NC}"; }
 
-echo ''
 resp=$(gsql -v 2>&1)
 if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
     echo -e "${RED}Tigergraph does not appear to be running on this host.${NC}"
     echo 'You can still continue with a remote (python) installed for another host,'
-    read -p "  Do you want to continue? (y/n): " doRemote
+    read -p "  Do you want to continu with remote install pre-requisites? (y/n): " doRemote
     if [[ "$doRemote" != *"y"* || "$doRemote" != *"yes"* ]]; then
         echo "Make sure to start TG and try again..."
         exit 0
@@ -25,7 +26,7 @@ else
 fi
 
 echo ''
-echo "For remote installations, such as TGCloud, python-3 is required your version is"
+echo "For remote installations, such as TGCloud, python-3 is required your version is:"
 python3 --version
 result=$?
 if [[ $result=0 ]]; then

@@ -9,8 +9,15 @@
 
 echo "Welcome to the TGSolution Pack Installer....."
 echo '  This package will install TigerGraph modules (graph and data) onto any install'
-echo '  of TigerGraph - local/EC2/TGCloud'
+echo '  of TigerGraph:'
+echo '     1) local - a local instance of tigergraph or docker container running locally'
+echo '     2) any cloud vm'
+echo '     3) TGCloud'
 echo ''
+
+echo 'First, lets check on some pre-requisites, to make sure your environment is ready'
+
+
 echo "Would you like to install a Customer Demo or a TigerGraph Starter Kit?"
 echo ''
 read -p "  Enter Custom Demo/Starter Kit - C/c/S/s: " choice
