@@ -8,6 +8,8 @@ NC='\033[0m' # No Color
 
 echo ''
 echo "First, for local installs, TigerGraph needs to be installed and services must be running. Lets verify that...."
+read -p "Hit return to continue" return
+
 echo ''
 
 command -v gadmin >/dev/null 2>&1 || { echo -e >&2 "${RED}TigerGraph is not installed on this host, local install not available.${NC}"; }
@@ -15,30 +17,37 @@ command -v gadmin >/dev/null 2>&1 || { echo -e >&2 "${RED}TigerGraph is not inst
 resp=$(gsql -v 2>&1)
 if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
     echo -e "${RED}Tigergraph does not appear to be running on this host.${NC}"
-    echo 'You can still continue with a remote (python) installed for another host,'
-    read -p "  Do you want to continu with remote install pre-requisites? (y/n): " doRemote
-    if [[ "$doRemote" != *"y"* || "$doRemote" != *"yes"* ]]; then
-        echo "Make sure to start TG and try again..."
-        exit 0
-    fi
+    echo 'You can still continue with a remote (python) installed for another host'
+    while true; do
+        read -p "  Do you want to continue with remote install pre-requisites? (y/n): " doRemote
+        case $doRemote in
+            [Yy]* ) "Contunue checks..."; break;;
+            [Nn]* ) exit;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
 else 
-	echo "Services up and running"
+	echo "Services up and running locally"
 fi
 
 echo ''
-echo "For remote installations, such as TGCloud, python-3 is required your version is:"
+echo "For remote installations, such as TGCloud, python v3 and the pyTigerGraph package is required "
+read -p "Hit return to perform these checks" return
+
 python3 --version
 result=$?
 if [[ $result=0 ]]; then
 	echo 'Python v3 is installed. We are all good'
+    echo 'python3' > .pycmd
 else
     python --version
     result=$?
     if [[ $result=0 ]]; then
         if [[ $(python --version) != *3.* ]]; then
-            echo "${RED}Only python 2 is installed, please update${NG}"
+            echo "${RED}Only python 2 is installed, please install python 3.8 or higher...${NG}"
         else
             echo "All good python command is set to v3"
+            echo 'python' > .pycmd
         fi
     else
         echo "${RED}Python v3 needs to be installed${NG}"
@@ -53,7 +62,7 @@ then
     echo "pyTigerGraph installed, versions are:"
     echo $pyTGresult
 else
-    echo -e "${RED}pyTigerGraph is not installed you can install using pip install pyTigerGraph.${NC}"
+    echo -e "${RED}pyTigerGraph is not installed you can install using this command: pip install pyTigerGraph.${NC}"
 fi
 
 echo ''
@@ -62,4 +71,7 @@ echo '  A token can be retrieved from the AWS Console, or by contacting a friend
 echo '   The format of a token looks like this:'
 echo '     Access key ID,Secret access key'
 echo '     ***********OC7EB,**************LPdAZ'
+echo ''
+
+read -p "Pre-requisite checks complete, hit return to continue" return
 echo ''
