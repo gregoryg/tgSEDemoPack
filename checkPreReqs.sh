@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 echo ''
 echo "First, for local installs, TigerGraph needs to be installed and services must be running. Lets verify that...."
-read -p "Hit return to continue" return
+read -p "Hit return to continue " return
 
 echo ''
 
@@ -22,15 +22,15 @@ if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
         read -p "  Do you want to continue with remote install pre-requisites? (y/n): " doRemote
         case $doRemote in
             [Yy]* ) 
-                "Continue checks..."
+                echo "Continue checks..."
                 break
                 ;;
             [Nn]* ) 
-                "Setup tigergraph and rerun the installer"
+                echo "Setup tigergraph and rerun the installer"
                 exit
                 ;;
-            * ) echo 
-                "Please answer yes or no."
+            * ) 
+                echo "Please answer yes or no."
                 ;;
         esac
     done
@@ -39,7 +39,7 @@ else
 fi
 
 echo ''
-echo "For remote installations, such as TGCloud, python v3 and the pyTigerGraph package is required "
+echo "For remote installations, such as TGCloud, python v3 and the pyTigerGraph package are required "
 read -p "Hit return to perform these checks " return
 
 python3 --version
