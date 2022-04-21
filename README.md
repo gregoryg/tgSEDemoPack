@@ -152,7 +152,6 @@ What would you like to do today?
    L/l - create a load job for a kit
    R/r - run a load job
    A/a - Do all 3, create schema and job, and run load for a kit
-Answer: c
 
 Do you want to install via GSQL or Python? (G/P/p): p
 Cool, python it is...
@@ -209,16 +208,7 @@ The install process is simple:
 9.  Go to the Studio UI to see progress
     -   for the local Docker container: <http://localhost:14240>
 
-The TGSolution Pack also includes copies of every TigerGraph Starter Kit
 
-
-The Starter Kits are installed using these steps:
-
-1. Run these setConnectionParams.sh script to configure the demo pack to connect to the TigerGraph server
-
-2. Run the installKit.sh script and follow the instructions
-
-Notes
 
     - The demo pack can also install mysql-based schema into a local mysql database
     - future releases of the demo pack will include Data packs of various sizes: small, large, gi-normous

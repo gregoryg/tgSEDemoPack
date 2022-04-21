@@ -18,7 +18,8 @@ echo ''
 echo '     NOTE: Setup on TGCloud is only available thru python install'
 echo ''
 
-cat .pycmd > $pycmd
+## to python or python3
+cat .pycmd > pycmd
 echo "py command is: $pycmd"
 
 chadifier="   - "
@@ -126,15 +127,15 @@ while true; do
 		echo ''
 		if [[ $fn == 'tg_createDataSource.py' ]]; then
 			echo "executing the create data source command: python ./py/${fn}"
-			python ./py/tg_createDataSource.py
+			$pycmd ./py/tg_createDataSource.py
 		elif [[ $fn == 'all' ]]; then
 			echo "executing all create /load steps command: python ./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
-			python "./py/create-schema-${kitNameArray[kitNumber-1]}Graph.py"
-			python "./py/create-load-job-${kitNameArray[kitNumber-1]}Graph.py"
-			python "./py/run-load-job-${kitNameArray[kitNumber-1]}Graph.py"
+			$pycmd "./py/create-schema-${kitNameArray[kitNumber-1]}Graph.py"
+			$pycmd "./py/create-load-job-${kitNameArray[kitNumber-1]}Graph.py"
+			$pycmd "./py/run-load-job-${kitNameArray[kitNumber-1]}Graph.py"
 		else
 			echo "executing this command: python ./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
-			python "./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
+			$pycmd "./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
 		fi
 		echo '' 
 		break
