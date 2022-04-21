@@ -18,10 +18,6 @@ echo ''
 echo '     NOTE: Setup on TGCloud is only available thru python install'
 echo ''
 
-## to python or python3
-cat .pycmd > pycmd
-echo "py command is: $pycmd"
-
 chadifier="   - "
 while true; do
 	KITNUMBER=1
@@ -57,6 +53,10 @@ while true; do
   		echo ''
 	fi
 done
+
+## to python or python3
+pycmd=$(.pycmd)
+echo "python command is: $pycmd"
 
 while true; do
 	echo ''
