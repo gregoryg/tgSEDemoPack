@@ -49,7 +49,7 @@ while true; do
 		echo " corresponding to kit: " ${kitNameArray[kitNumber-1]}
 		break
 	else
-  		echo "Needs to be a number between 1 and ${KITNUMBER}"
+  		echo "Needs to be a number between 1 and ${KITNUMBER-1}"
   		echo ''
 	fi
 done
@@ -82,7 +82,7 @@ while true; do
 		fn='all'
 		break
 	else
-		echo 'Invalid entry, nmeeds to be c/d/l/r or C/D/L/R'
+		echo 'Invalid entry, needs to be c/d/l/r or C/D/L/R'
 	fi
 done
 
@@ -124,6 +124,11 @@ while true; do
 		if [[ $fn == 'tg_createDataSource.py' ]]; then
 			echo "executing the create data source command: python ./py/${fn}"
 			python ./py/tg_createDataSource.py
+		elif [[ $fn == 'all' ]]; then
+			echo "executing all create /load steps command: python ./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
+			python "./py/create-schema-${kitNameArray[kitNumber-1]}Graph.py"
+			python "./py/create-load-job-${kitNameArray[kitNumber-1]}Graph.py"
+			python "./py/run-load-job-${kitNameArray[kitNumber-1]}Graph.py"
 		else
 			echo "executing this command: python ./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
 			python "./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
