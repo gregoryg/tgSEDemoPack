@@ -64,7 +64,7 @@ fi
 
 echo ''
 echo "This utility uses the python pyTigerGraph library, which needs to be installed via pip"
-read -p "Hit return to continue" return
+read -p "Hit return to continue " return
 
 echo ''
 pyTGresult="$(pip list --format=columns | grep Tiger 2>&1)"
@@ -84,5 +84,5 @@ echo '     Access key ID,Secret access key'
 echo '     ***********OC7EB,**************LPdAZ'
 echo ''
 
-read -p "Pre-requisite checks complete, hit return to continue" return
+read -p "Pre-requisite checks complete, hit return to continue " return
 echo ''
