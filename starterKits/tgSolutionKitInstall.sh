@@ -55,7 +55,7 @@ while true; do
 done
 
 ## to python or python3
-pycmd=$(.pycmd)
+pycmd=$(<.pycmd)
 echo "python command is: $pycmd"
 
 while true; do
