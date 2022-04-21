@@ -39,14 +39,14 @@ else
 fi
 
 echo ''
-echo "For remote installations, such as TGCloud, python v3 and the pyTigerGraph package are required "
+echo "For remote installations, such as to TGCloud, python v3 and the pyTigerGraph package are required "
 read -p "Hit return to perform these checks " return
 
 python3 --version
 result=$?
 if [[ $result=0 ]]; then
-	echo 'Python v3 is installed. We are all good'
-    echo 'python3' > .pycmd
+	echo 'Python v3 is installed. So we are all good there'
+    echo 'python3' > ./starterKits/.pycmd
 else
     python --version
     result=$?
@@ -55,7 +55,7 @@ else
             echo "${RED}Only python 2 is installed, please install python 3.8 or higher...${NG}"
         else
             echo "All good python command is set to v3"
-            echo 'python' > .pycmd
+            echo 'python' > ./starterKits/.pycmd
         fi
     else
         echo "${RED}Python v3 needs to be installed${NG}"
