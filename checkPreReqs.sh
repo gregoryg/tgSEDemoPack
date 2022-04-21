@@ -64,8 +64,11 @@ fi
 
 echo ''
 echo "This utility uses the python pyTigerGraph library, which needs to be installed via pip"
-pyTGresult="$(pip list |grep Tiger 2>&1)"
-if [[ $pyTGresult == *"pyTigerGraph"* ]];
+read -p "Hit return to continue" return
+
+echo ''
+pyTGresult="$(pip list --format=columns | grep Tiger 2>&1)"
+if [[ $pyTGresult == *"pyTiger"* ]];
 then
     echo "pyTigerGraph installed, versions are:"
     echo $pyTGresult
