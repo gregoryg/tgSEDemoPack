@@ -7,6 +7,7 @@
 # Author: robert.hardaway@tigergraph.com
 ################################################
 
+echo ''
 echo "Welcome to the TGSolution Pack Installer....."
 echo '  This package will install TigerGraph modules (graph and data) onto any install'
 echo '  of TigerGraph:'
@@ -15,7 +16,6 @@ echo '     2) any cloud vm'
 echo '     3) TGCloud'
 echo ''
 
-echo ''
 if [ ! -f ./.prechk ]
 then
 	echo "First, lets check on some pre-requisites, to make sure your environment is ready"

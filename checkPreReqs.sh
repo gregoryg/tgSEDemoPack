@@ -58,7 +58,7 @@ else
             echo 'python' > ./starterKits/.pycmd
         fi
     else
-        echo "${RED}Python v3 needs to be installed${NG}"
+        echo -e "${RED}Python v3 needs to be installed${NG}"
     fi
 fi
 
@@ -66,8 +66,24 @@ echo ''
 echo "This utility uses the python pyTigerGraph library, which needs to be installed via pip"
 read -p "Hit return to continue " return
 
+pipVersion="$(pip --version 2>&1)"
+if [[ $pipVersion == *"python3"* ]];
+then
+    echo 'pip points to python 3, check'
+    pipcmd='pip'
+else
+    pip3Version="$(pip3 --version 2>&1)"
+    if [[ $pip3Version == *"python3"* ]];
+    then
+        echo 'pip3points to python 3, check' 
+        pipcmd='pip3'
+    else
+        echo -e "{RED}pip v3 needs to be installed${NG}"
+    fi
+fi
+
 echo ''
-pyTGresult="$(pip list --format=columns | grep Tiger 2>&1)"
+pyTGresult="$($pipcmd list --format=columns | grep Tiger 2>&1)"
 if [[ $pyTGresult == *"pyTiger"* ]];
 then
     echo "pyTigerGraph installed, versions are:"
