@@ -2,7 +2,7 @@
 
 echo ''
 echo "The tgSolutionPack requires some basic tools and utilities be available, lets verify your env..."
-echo ''
+
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
@@ -16,14 +16,19 @@ command -v gadmin >/dev/null 2>&1 || { echo -e >&2 "${RED}TigerGraph is not inst
 
 resp=$(gsql -v 2>&1)
 if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
-    echo -e "${RED}Tigergraph does not appear to be running on this host.${NC}"
+    echo -e "${RED}Tigergraph does not appear to be running on this host. Or perhaps the current user is not configured to access the service?${NC}"
     echo 'You can still continue with a remote (python) installed for another host'
     while true; do
         read -p "  Do you want to continue with remote install pre-requisites? (y/n): " doRemote
         case $doRemote in
-            [Yy]* ) "Contunue checks..."; break;;
-            [Nn]* ) exit;;
-            * ) echo "Please answer yes or no.";;
+            [Yy]* ) 
+                "Continue checks..."
+                break
+            [Nn]* ) 
+                "Setup tigergraph and rerun the installer"
+                exit
+            * ) echo 
+                "Please answer yes or no."
         esac
     done
 else 
@@ -32,7 +37,7 @@ fi
 
 echo ''
 echo "For remote installations, such as TGCloud, python v3 and the pyTigerGraph package is required "
-read -p "Hit return to perform these checks" return
+read -p "Hit return to perform these checks " return
 
 python3 --version
 result=$?
