@@ -208,8 +208,6 @@ The install process is simple:
 9.  Go to the Studio UI to see progress
     -   for the local Docker container: <http://localhost:14240>
 
-
-
     - The demo pack can also install mysql-based schema into a local mysql database
     - future releases of the demo pack will include Data packs of various sizes: small, large, gi-normous
 
