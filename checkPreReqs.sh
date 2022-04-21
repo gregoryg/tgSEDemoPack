@@ -86,3 +86,6 @@ echo ''
 
 read -p "Pre-requisite checks complete, hit return to continue " return
 echo ''
+
+echo "Pre-checks completed on $(date)" > .prechk
+

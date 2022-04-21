@@ -15,8 +15,12 @@ echo '     2) any cloud vm'
 echo '     3) TGCloud'
 echo ''
 
-echo 'First, lets check on some pre-requisites, to make sure your environment is ready'
-
+echo ''
+if [ ! -f ./.prechk ]
+then
+	echo "First, lets check on some pre-requisites, to make sure your environment is ready"
+	./checkPreReqs.sh
+fi
 
 echo "Would you like to install a Customer Demo or a TigerGraph Starter Kit?"
 echo ''
