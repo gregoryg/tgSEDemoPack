@@ -21,8 +21,8 @@ else
   echo "$file file not found, using defaults"
   ## Default to local docker
   tg_host='http://localhost'
-  tg_username="tigergraph"
-  tg_password="tigergraph"
+  tg_username="tigergraph_user"
+  tg_password="tigergraph_pw"
   tg_s3_data_source="s3_data_source"
   tg_s3_bucket_name="tg-workshop-us"
   tg_access_key_ID="AKIA45R*********"
@@ -143,14 +143,14 @@ echo "tg_access_key_ID=$tg_access_key_ID_new" >> ./tg.properties
 echo "tg_secret_access_key=$tg_secret_access_key_new" >> ./tg.properties
 
 ## Replace tokens in the template with actual values
-for file in "./py/"*.py
+for file in "./templates/py/"*.py
   do
     ##echo "adding props to file: $file"
     sed "s/${tg_host_escaped}/${tg_host_new_escaped}/g" $file > bob.tmp
     sed "s/${tg_username}/${tg_username_new}/g" bob.tmp > bob2.tmp
     sed "s/${tg_password}/${tg_password_new}/g" bob2.tmp > bob3.tmp
 
-    mv bob3.tmp $file
+    mv bob3.tmp scripts/$file
     rm -rf bob*.tmp
   done
 

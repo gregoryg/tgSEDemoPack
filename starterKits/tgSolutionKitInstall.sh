@@ -21,7 +21,7 @@ echo ''
 chadifier="   - "
 while true; do
 	KITNUMBER=1
-	for file in "./gsql/"create-schema*.gsql
+	for file in "./templates/gsql/"create-schema*.gsql
 	do
 		IFS='-'
 		if [[ -f "$file" ]] ; then
@@ -127,15 +127,15 @@ while true; do
 		echo ''
 		if [[ $fn == 'tg_createDataSource.py' ]]; then
 			echo "executing the create data source command: python ./py/${fn}"
-			$pycmd ./py/tg_createDataSource.py
+			$pycmd ./scripts/py/tg_createDataSource.py
 		elif [[ $fn == 'all' ]]; then
-			echo "executing all create /load steps command: $pycmd ./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
-			$pycmd "./py/create-schema-${kitNameArray[kitNumber-1]}Graph.py"
-			$pycmd "./py/create-load-job-${kitNameArray[kitNumber-1]}Graph.py"
-			$pycmd "./py/run-load-job-${kitNameArray[kitNumber-1]}Graph.py"
+			echo "executing all create /load steps command: $pycmd ./scripts/py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
+			$pycmd "./scripts/py/create-schema-${kitNameArray[kitNumber-1]}Graph.py"
+			$pycmd "./scripts/py/create-load-job-${kitNameArray[kitNumber-1]}Graph.py"
+			$pycmd "./scripts/py/run-load-job-${kitNameArray[kitNumber-1]}Graph.py"
 		else
 			echo "executing this command: $pycmd ./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
-			$pycmd "./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
+			$pycmd "./scripts/py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
 		fi
 		echo '' 
 		break
