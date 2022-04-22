@@ -38,13 +38,9 @@ while true; do
 		fi
 	done
 
-	echo "  C/c - create all"
-	echo "  L/l - load all jobs"
-	echo "  R/r - run all jobs"
-
 	echo ''
 	echo "choose the kit you want to work with"
-	read -p "     Valid kits are 1 thru ${KITNUMBER}: " kitNumber
+	read -p "     Valid kits are 1 thru ${KITNUMBER} : " kitNumber
 
 	## make sure we got a valid number
 	if [ -n "$kitNumber" ] && [ "$kitNumber" -eq "$kitNumber" ] 2>/dev/null; then
