@@ -134,7 +134,7 @@ while true; do
 			$pycmd "./scripts/py/create-load-job-${kitNameArray[kitNumber-1]}Graph.py"
 			$pycmd "./scripts/py/run-load-job-${kitNameArray[kitNumber-1]}Graph.py"
 		else
-			echo "executing this command: $pycmd ./py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
+			echo "executing this command: $pycmd ./scripts/py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
 			$pycmd "./scripts/py/${fn}-${kitNameArray[kitNumber-1]}Graph.py"
 		fi
 		echo '' 
