@@ -113,10 +113,7 @@ fi
 echo ''
 echo 'NOTE: these credentails will be written to the python load scripts in clear text'
 echo ''
-
 echo "Host new is: $tg_host_new"
-echo "Host is: $tg_host"
-
 echo ''
 echo 'Configure the S3 access token'
 echo ''
@@ -128,8 +125,8 @@ tg_key_escaped_new=$(printf '%s\n' "$tg_secret_access_key_new" | sed -e 's/[\/&]
 
 
 ## add the keys to the load job template
-sed "s/ACCESSKEYID/${tg_access_key_ID_new}/g" ./py/tg_createDataSource.py.orig > bob.tmp
-sed "s/SECRETACCESSKEY/${tg_key_escaped_new}/g" bob.tmp > ./py/tg_createDataSource.py
+sed "s/ACCESSKEYID/${tg_access_key_ID_new}/g" ./templates/py/tg_createDataSource_orig.py > bob.tmp
+sed "s/SECRETACCESSKEY/${tg_key_escaped_new}/g" bob.tmp > ./templates/py/tg_createDataSource.py
 rm -rf bob.tmp
 
 ## Write new props to tg.properties file
@@ -145,7 +142,7 @@ echo "tg_secret_access_key=$tg_secret_access_key_new" >> ./tg.properties
 ## Replace tokens in the template with actual values
 for file in "./templates/py/"*.py
   do
-    ##echo "adding props to file: $file"
+    echo "adding props to file: $file"
     sed "s/${tg_host_escaped}/${tg_host_new_escaped}/g" $file > bob.tmp
     sed "s/${tg_username}/${tg_username_new}/g" bob.tmp > bob2.tmp
     sed "s/${tg_password}/${tg_password_new}/g" bob2.tmp > bob3.tmp
