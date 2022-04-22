@@ -13,7 +13,7 @@ echo 'This installer will install any starter kit on any tg instance'
 echo ''
 echo 'Install options are:'
 echo '   1. GSQL - Install via gsql command line to a local'
-echo '   3. Python - Install via python script and pyTigerGraph library to a remote instance'
+echo '   2. Python - Install via python script and pyTigerGraph library to a remote instance'
 echo ''
 echo '     NOTE: Setup on TGCloud is only available thru python install'
 echo ''
@@ -37,6 +37,10 @@ while true; do
 			((KITNUMBER=KITNUMBER+1))
 		fi
 	done
+
+	echo "  C/c - create all"
+	echo "  L/l - load all jobs"
+	echo "  R/r - run all jobs"
 
 	echo ''
 	echo "choose the kit you want to work with"
