@@ -1,4 +1,0 @@
-USE GRAPH COVID19Graph
-RUN LOADING JOB COVID19Graph_load_job USING EOF="true"
-DROP JOB COVID19Graph_load_job
-

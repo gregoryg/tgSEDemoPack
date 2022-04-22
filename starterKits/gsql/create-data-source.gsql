@@ -1,1 +1,0 @@
-CREATE DATA_SOURCE S3 tg_s3_data_source = "{'file.reader.settings.fs.s3a.access.key':'','file.reader.settings.fs.s3a.secret.key':''}"

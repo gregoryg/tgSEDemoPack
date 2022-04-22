@@ -1,9 +1,0 @@
-GRANT DATA_SOURCE s3_data_source TO GRAPH GSQL101Graph
-
-USE GRAPH GSQL101Graph
-
-CREATE LOADING JOB GSQL101Graph_load_job FOR GRAPH GSQL101Graph {
-
-LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/GSQL101/person.tsv\"}" TO VERTEX person VALUES ($"primary_id", $"name", $"age", $"gender", $"state") USING SEPARATOR = "\t", HEADER = "true";
-LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/GSQL101/friendship.tsv\"}" TO EDGE friendship VALUES ($"from", $"to", $"connect_day") USING SEPARATOR = "\t", HEADER = "true";
-}

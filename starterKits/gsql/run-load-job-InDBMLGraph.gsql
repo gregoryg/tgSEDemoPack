@@ -1,4 +1,0 @@
-USE GRAPH InDBMLGraph
-RUN LOADING JOB InDBMLGraph_load_job USING EOF="true"
-DROP JOB InDBMLGraph_load_job
-

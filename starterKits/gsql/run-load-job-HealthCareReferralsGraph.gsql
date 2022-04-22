@@ -1,4 +1,0 @@
-USE GRAPH HealthCareReferralsGraph
-RUN LOADING JOB HealthCareReferralsGraph_load_job USING EOF="true"
-DROP JOB HealthCareReferralsGraph_load_job
-

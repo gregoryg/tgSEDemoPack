@@ -1,4 +1,0 @@
-USE GRAPH EnterpriseKnowledgeCrunchbaseGraph
-RUN LOADING JOB EnterpriseKnowledgeCrunchbaseGraph_load_job USING EOF="true"
-DROP JOB EnterpriseKnowledgeCrunchbaseGraph_load_job
-
