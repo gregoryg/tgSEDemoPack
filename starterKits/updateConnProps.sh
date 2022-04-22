@@ -142,12 +142,14 @@ echo "tg_secret_access_key=$tg_secret_access_key_new" >> ./tg.properties
 ## Replace tokens in the template with actual values
 for file in "./templates/py/"*.py
   do
-    echo "adding props to file: $file"
     sed "s/${tg_host_escaped}/${tg_host_new_escaped}/g" $file > bob.tmp
     sed "s/${tg_username}/${tg_username_new}/g" bob.tmp > bob2.tmp
     sed "s/${tg_password}/${tg_password_new}/g" bob2.tmp > bob3.tmp
 
-    mv bob3.tmp scripts/$file
+    newFile=$(echo "$file" | sed "s/templates/scripts/")
+    echo "adding props to file: $newFile"
+
+    mv bob3.tmp $newFile
     rm -rf bob*.tmp
   done
 
