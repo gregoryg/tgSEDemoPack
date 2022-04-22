@@ -1,0 +1,4 @@
+USE GRAPH ML_RTFraudGraph
+RUN LOADING JOB ML_RTFraudGraph_load_job USING EOF="true"
+DROP JOB ML_RTFraudGraph_load_job
+

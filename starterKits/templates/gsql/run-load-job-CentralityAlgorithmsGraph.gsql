@@ -1,0 +1,4 @@
+USE GRAPH CentralityAlgorithmsGraph
+RUN LOADING JOB CentralityAlgorithmsGraph_load_job USING EOF="true"
+DROP JOB CentralityAlgorithmsGraph_load_job
+

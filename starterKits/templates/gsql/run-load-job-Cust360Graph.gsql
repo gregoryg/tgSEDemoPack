@@ -1,0 +1,4 @@
+USE GRAPH Cust360Graph
+RUN LOADING JOB Cust360Graph_load_job USING EOF="true"
+DROP JOB Cust360Graph_load_job
+

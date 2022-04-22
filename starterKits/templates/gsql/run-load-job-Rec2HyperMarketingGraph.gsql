@@ -1,0 +1,4 @@
+USE GRAPH Rec2HyperMarketingGraph
+RUN LOADING JOB Rec2HyperMarketingGraph_load_job USING EOF="true"
+DROP JOB Rec2HyperMarketingGraph_load_job
+

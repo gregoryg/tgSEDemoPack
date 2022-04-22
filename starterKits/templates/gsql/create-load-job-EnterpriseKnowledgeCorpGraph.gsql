@@ -1,0 +1,14 @@
+GRANT DATA_SOURCE s3_data_source TO GRAPH EnterpriseKnowledgeCorpGraph
+
+USE GRAPH EnterpriseKnowledgeCorpGraph
+
+CREATE LOADING JOB EnterpriseKnowledgeCorpGraph_load_job FOR GRAPH EnterpriseKnowledgeCorpGraph {
+
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/EnterpriseKnowledgeCorp/Person.tsv\"}" TO VERTEX Person VALUES ($"primary_id", $"gender") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/EnterpriseKnowledgeCorp/Company.tsv\"}" TO VERTEX Company VALUES ($"primary_id", $"registered_capital") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/EnterpriseKnowledgeCorp/Project.tsv\"}" TO VERTEX Project VALUES ($"primary_id") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/EnterpriseKnowledgeCorp/WorkFor.tsv\"}" TO EDGE WorkFor VALUES ($"from", $"to", $"title") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/EnterpriseKnowledgeCorp/PersonInvestCompany.tsv\"}" TO EDGE PersonInvestCompany VALUES ($"from", $"to", $"invest_year", $"amount", $"control_type") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/EnterpriseKnowledgeCorp/CompanyInvestCompany.tsv\"}" TO EDGE CompanyInvestCompany VALUES ($"from", $"to", $"invest_year", $"amount", $"control_type") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/EnterpriseKnowledgeCorp/BidFor.tsv\"}" TO EDGE BidFor VALUES ($"from", $"to", $"price", $"solution") USING SEPARATOR = "\t", HEADER = "true";
+}

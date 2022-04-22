@@ -1,0 +1,4 @@
+USE GRAPH EnterpriseKnowledgeCorpGraph
+RUN LOADING JOB EnterpriseKnowledgeCorpGraph_load_job USING EOF="true"
+DROP JOB EnterpriseKnowledgeCorpGraph_load_job
+

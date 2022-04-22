@@ -1,0 +1,16 @@
+GRANT DATA_SOURCE s3_data_source TO GRAPH SupplyChainGraph
+
+USE GRAPH SupplyChainGraph
+
+CREATE LOADING JOB SupplyChainGraph_load_job FOR GRAPH SupplyChainGraph {
+
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/product.tsv\"}" TO VERTEX product VALUES ($"primary_id", $"name", $"price", $"formula") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/site.tsv\"}" TO VERTEX site VALUES ($"primary_id", $"name") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/p_order.tsv\"}" TO VERTEX p_order VALUES ($"primary_id") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/stocking.tsv\"}" TO VERTEX stocking VALUES ($"primary_id") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/usedBy.tsv\"}" TO EDGE usedBy VALUES ($"from", $"to", $"formula_order", $"useAmount") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/deliver.tsv\"}" TO EDGE deliver VALUES ($"from", $"to", $"itemId") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/produce.tsv\"}" TO EDGE produce VALUES ($"from", $"to") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/prodOrder.tsv\"}" TO EDGE prodOrder VALUES ($"from", $"to", $"amount") USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/SupplyChain/prodStocking.tsv\"}" TO EDGE prodStocking VALUES ($"from", $"to", $"amount") USING SEPARATOR = "\t", HEADER = "true";
+}

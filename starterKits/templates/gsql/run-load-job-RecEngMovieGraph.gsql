@@ -1,0 +1,4 @@
+USE GRAPH RecEngMovieGraph
+RUN LOADING JOB RecEngMovieGraph_load_job USING EOF="true"
+DROP JOB RecEngMovieGraph_load_job
+

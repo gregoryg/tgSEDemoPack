@@ -1,0 +1,4 @@
+USE GRAPH AMLGraph
+RUN LOADING JOB AMLGraph_load_job USING EOF="true"
+DROP JOB AMLGraph_load_job
+

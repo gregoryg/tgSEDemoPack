@@ -1,0 +1,14 @@
+USE GLOBAL
+DROP GRAPH ML_RTFraudGraph
+
+CREATE GRAPH ML_RTFraudGraph()
+USE GRAPH ML_RTFraudGraph
+
+CREATE SCHEMA_CHANGE JOB ML_RTFraudGraph_change_job FOR GRAPH ML_RTFraudGraph {
+
+ADD VERTEX phone(PRIMARY_ID phone_id STRING, flag UINT) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="false";
+ADD DIRECTED EDGE phone_phone(FROM phone, TO phone, num_of_call UINT, total_duration UINT, num_of_rejection UINT, start_time UINT, max_duration UINT) WITH REVERSE_EDGE="phone_phone_reversed";
+}
+
+RUN SCHEMA_CHANGE JOB ML_RTFraudGraph_change_job
+DROP JOB ML_RTFraudGraph_change_job
