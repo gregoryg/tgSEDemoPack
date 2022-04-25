@@ -42,6 +42,17 @@ if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
     exit 2
 fi
 
+echo "Next, lets retrieve the dataset content for these demos from S3."
+echo 'This may take a minute....'
+
+cd ..
+wget https://tgsedemodatabucket.s3.amazonaws.com/tgSEDemoPack.tar.gz
+tar -xzvf tgSEDemoPack.tar.gz &>/dev/null
+rm -rf tgSEDemoPack.tar.gz
+cd tgSEDemoPack
+
+echo 'Datasets added to custom demo packs'
+
 echo ''
 echo "Custom demo install process "
 echo ""

@@ -1,7 +1,7 @@
 # TigerGraph SE Demo Pack Installer v1.2
 ## 
 
-`tgSEDemoPack` - this package contains the content required to populate any TigerGraph instance (local/cloud/tgcloud) with custom SE demo content and/or any of the 26 Starter Kits available on TGCloud. The current version provides the following content:
+`tgSEDemoPack` - this package contains the content required to populate any TigerGraph instance (local/cloud/tgcloud). The current version includes the following content:
     
 ## Custom Demos 
 ### These demos cover various public datasets (LDBC, TPC, Synthea) and other general purpose TG solutions.
@@ -60,23 +60,14 @@ To Install any of the content, follow these steps:
 
     git clone https://github.com/TigerGraph-DevLabs/tgSEDemoPack.git
 
-2.  (Optional) Custom demo data is provided via a seperate archie, download the data file archieve using the follwoing command. Note: this public S3 bucket location may change some day
-
-    ```bash
-    cd <path>/tgSEDemoPack
-    cd ..
-    wget https://tgsedemodatabucket.s3.amazonaws.com/tgSEDemoPackData.tar.gz
-    tar -xzf tgSEDemoPackData.tar.gz
-    ```
-
-3. Pre-requisites - As with any good utility, preperation is key. tgSolution pack is dependent on a couple things:
-
-   Run the pre-requisite check to ensure your environment is ready
+2. Execute the demo pack installer with 
 
     ```bash
     cd tgSEDemoPack
-   ./checkPreReqs.sh
+   ./runTGSInstall.sh
     ```
+
+3. The installer will perform a few verification steps the first time it is run. These include:
 
 <ol>
 <li>For TGCloud install, Python 3 is required</li>
@@ -84,18 +75,12 @@ To Install any of the content, follow these steps:
 <li>For a Starter kit install, data is loaded from a private S3 bucket and requires an access token valid with the tgSales account</li>
 <li>For local install, just make sure Tigergraph is installed and services are running on the host</li>
 
-  NOTE: In order to load source data efficiently, it has been staged onto an S3 bucket. You will need an AWS client key/secret to connect to the bucket via python, which looks like this:
+  For the Starter Kits, source data is also staged onto an S3 bucket. This bucket is private and will require an AWS client key/secret to connect to the bucket via python, which looks like this:
 
     Access key ID,Secret access key
     **************QOC7EB,**************************oCbLPdAZ
 
-4. Execute the installer:
-
-    ```bash
-    ./runTGSInstall.sh
-    ```
-
-    Follow the prompts to:
+4. Follow the prompts to:
 
 Welcome to the TGSolution Pack Installer.....
   This package will install TigerGraph modules (graph and data) onto any install
@@ -141,7 +126,7 @@ Install options are:
   26  -  SupplyChain 
 
 choose the kit you want to work with
-     Valid kits are 1 thru 27: 7
+     Valid kits are 1 thru 26: 7
 
 starter kit choosen is:  7
  corresponding to kit:  CyberSecThreatDetection
@@ -170,38 +155,15 @@ tg_s3_bucket_name = tg-workshop-us
 tg_access_key_ID = ************QOC7EB
 tg_secret_access_key = ***********************oCbLPdAZ
 
-5. The tgSEDemoPack come with two types of content
-
-    a. Custom demo packages described above - The custom Demos load local data from the tgSEDemoPackData.tar.gz archive
-        also available on S3, please download it and add to your tgSEDemoPack file structure (step 2 above)
-    b. Install a Starter Kit also decribed above
-
 6. There are multiple ways to run the installer for maximum flexibility, you can clone repo:
 
-    a. Directly to the Tigergraph server, run gsql scripts locally
+    a. Directly to the Tigergraph server, run gsql scripts locally as the tigergraph user
     b. To any EC2 instance, run python scripts from there
     c. To your Mac, and run either
         c1. Python scripts to connect to TGCloud
         c2. GSQL scripts to connect to Docker on localhost 
 
-The package can be installed on any instance running the TigerGraph application. 
-The install process is simple:
 
-7.  Select one of the solution packs to install
-
-    1 - Entity Resolution(MDM)
-    2 - Fraud Detection
-    3 - LDBC Benchmark
-    4 - TPC-DS Benchmark
-    5 - Synthea HealthCare
-    6 - IMDB
-    7 - Customer360
-    8 - Recommendations
-    9 - AML Sim
-    10 - Ontime Flight Performance
-    11 - Adworks
-    A/a - install all of the packs
-    mysql - Stage all of the source data to a local mysql db
 
 8.  The script will create the objects, loading job and execute each load job to populate the graph.
 
