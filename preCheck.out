@@ -1,0 +1,38 @@
+tigergraph@tgse-host:~/tgSEDemoPack$ ./runTGSInstall.sh 
+
+Welcome to the TGSolution Pack Installer.....
+  This package will install TigerGraph modules (graph and data) onto any install
+  of TigerGraph:
+     1) local - a local instance of tigergraph or docker container running locally
+     2) any cloud vm
+     3) TGCloud
+First, lets check on some pre-requisites, to make sure your environment is ready
+The tgSolutionPack requires some basic tools and utilities be available, lets verify your env...
+First, for local installs, TigerGraph needs to be installed and services must be running. Lets verify that....
+Hit return to continue 
+
+The tgSolutionPack requires some basic tools and utilities be available, lets verify your env...
+First, for local installs, TigerGraph needs to be installed and services must be running. Lets verify that....
+Hit return to continue 
+Services up and running locally
+For remote installations, such as to TGCloud, python v3 and the pyTigerGraph package are required 
+Hit return to perform these checks
+
+Services up and running locally
+
+For remote installations, such as to TGCloud, python v3 and the pyTigerGraph package are required 
+Hit return to perform these checks 
+Python 3.6.9
+Python v3 is installed. So we are all good there
+This utility uses the python pyTigerGraph library, which needs to be installed via pip
+Hit return to continue 
+
+pip3 points to python 3, check
+pyTigerGraph installed, versions are:
+pyTigerDriver 1.0.14 pyTigerGraph 0.0.9.9.2
+You will need an AWS client access token to access the demo data which is stored on S3
+  A token can be retrieved from the AWS Console, or by contacting a friendly SE
+   The format of a token looks like this:
+     Access key ID,Secret access key
+     ***********OC7EB,**************LPdAZ
+Pre-requisite checks complete, hit return to continue 
