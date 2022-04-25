@@ -70,13 +70,13 @@ read -p "Hit return to continue " return
 pipVersion="$(pip --version 2>&1)"
 if [[ $pipVersion == *"python3"* ]];
 then
-    echo "${GREEN}pip points to python 3, check${NC}"
+    echo -e "${GREEN}pip points to python 3, check${NC}"
     pipcmd='pip'
 else
     pip3Version="$(pip3 --version 2>&1)"
     if [[ $pip3Version == *"python3"* ]];
     then
-        echo "${GREEN}pip3 points to python 3, check${NC}" 
+        echo -e "${GREEN}pip3 points to python 3, check${NC}" 
         pipcmd='pip3'
     else
         echo -e "${RED}pip v3 needs to be installed${NC}"
@@ -87,7 +87,7 @@ echo ''
 pyTGresult="$($pipcmd list --format=columns | grep Tiger 2>&1)"
 if [[ $pyTGresult == *"pyTiger"* ]];
 then
-    echo "${GREEN}pyTigerGraph installed, versions are:${NC}"
+    echo -e "${GREEN}pyTigerGraph installed, versions are:${NC}"
     echo $pyTGresult
 else
     echo -e "${RED}pyTigerGraph is not installed you can install using this command: pip install pyTigerGraph.${NC}"
