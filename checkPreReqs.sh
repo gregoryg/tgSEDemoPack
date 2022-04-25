@@ -4,6 +4,7 @@ echo ''
 echo "The tgSolutionPack requires some basic tools and utilities be available, lets verify your env..."
 
 RED='\033[0;31m'
+GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 echo ''
@@ -35,7 +36,7 @@ if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
         esac
     done
 else 
-	echo "Services up and running locally"
+	echo -e "${GREEN}Services up and running locally${NC}"
 fi
 
 echo ''
@@ -45,7 +46,7 @@ read -p "Hit return to perform these checks " return
 python3 --version
 result=$?
 if [[ $result=0 ]]; then
-	echo 'Python v3 is installed. So we are all good there'
+	echo -e "${GREEN}Python v3 is installed. So we are all good there${NC}"
     echo 'python3' > ./starterKits/.pycmd
 else
     python --version
@@ -54,7 +55,7 @@ else
         if [[ $(python --version) != *3.* ]]; then
             echo "${RED}Only python 2 is installed, please install python 3.8 or higher...${NG}"
         else
-            echo "All good python command is set to v3"
+            echo "${GREEN}All good python command is set to v3${NC}"
             echo 'python' > ./starterKits/.pycmd
         fi
     else
@@ -69,16 +70,16 @@ read -p "Hit return to continue " return
 pipVersion="$(pip --version 2>&1)"
 if [[ $pipVersion == *"python3"* ]];
 then
-    echo 'pip points to python 3, check'
+    echo "${GREEN}pip points to python 3, check${NC}"
     pipcmd='pip'
 else
     pip3Version="$(pip3 --version 2>&1)"
     if [[ $pip3Version == *"python3"* ]];
     then
-        echo 'pip3points to python 3, check' 
+        echo "${GREEN}pip3 points to python 3, check${NC}" 
         pipcmd='pip3'
     else
-        echo -e "{RED}pip v3 needs to be installed${NG}"
+        echo -e "${RED}pip v3 needs to be installed${NG}"
     fi
 fi
 
@@ -86,7 +87,7 @@ echo ''
 pyTGresult="$($pipcmd list --format=columns | grep Tiger 2>&1)"
 if [[ $pyTGresult == *"pyTiger"* ]];
 then
-    echo "pyTigerGraph installed, versions are:"
+    echo "${GREEN}pyTigerGraph installed, versions are:${NC}"
     echo $pyTGresult
 else
     echo -e "${RED}pyTigerGraph is not installed you can install using this command: pip install pyTigerGraph.${NC}"
