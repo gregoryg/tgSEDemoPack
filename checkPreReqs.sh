@@ -79,7 +79,7 @@ else
         echo "${GREEN}pip3 points to python 3, check${NC}" 
         pipcmd='pip3'
     else
-        echo -e "${RED}pip v3 needs to be installed${NG}"
+        echo -e "${RED}pip v3 needs to be installed${NC}"
     fi
 fi
 
