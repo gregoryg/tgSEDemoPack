@@ -24,23 +24,20 @@ fi
 
 echo "Would you like to install a Customer Demo or a TigerGraph Starter Kit?"
 echo ''
-read -p "  Enter Custom Demo/Starter Kit - C/c/S/s: " choice
-if [[ "$choice" == *"S"* || "$choice" == *"s"* ]]; then
-	cd starterKits
-	./tgSolutionKitInstall.sh
-	exit 0
-fi
 
-echo "For a Custom Demo install, lets make sure TG is running on this host..."
-
-command -v gadmin >/dev/null 2>&1 || { echo >&2 "TigerGraph is not installed on this host, aborting."; exit 1; }
-
-## ensure tg is running and gsql is available
-resp=$(gsql -v)
-if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
-    echo "Tigergraph does not appear to be running on this host, please start it using gadmin."
-    exit 2
-fi
+while true; do
+	read -p "  Enter Custom Demo/Starter Kit - C/c/S/s: " choice
+	if [[ "$choice" == *"S"* || "$choice" == *"s"* ]]; then
+		cd starterKits
+		./tgSolutionKitInstall.sh
+		exit 0
+	elif [[ "$choice" == *"C"* || "$choice" == *"c"* ]]; then
+		echo 'Custom demo pack it is.'
+		break
+	else
+		echo "Please provide a valid entry"
+	fi
+done
 
 echo "Next, lets retrieve the dataset content for these demos from S3."
 echo 'This may take a minute....'
