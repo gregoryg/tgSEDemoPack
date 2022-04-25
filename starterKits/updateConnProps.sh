@@ -150,8 +150,11 @@ for file in "./templates/py/"*.py
     ##echo "adding props to file: $newFile"
 
     mv bob3.tmp $newFile
-   ## rm -rf bob*.tmp
+    rm -rf bob*.tmp
   done
+
+echo 'Create the gsql scripts'
+cp ./templates/gsql/*.gsql ./scripts/gsql/
 
 echo ''
 echo 'Python scripts updated to reflect connection info..'
