@@ -98,8 +98,34 @@ while true; do
 		echo "No input provided: should be create/load"
 	elif [ $install_type == 'G' ] || [ $install_type == 'g' ] || [ $install_type == 'gsql' ]; then
 		echo "Cool, gsql it is..."
+
+		props_file='../tg.properties'
+		if [ -f "$props_file" ]
+		then
+		  while IFS='=' read -r key value
+		  do
+		    key=$(echo $key | tr '.' '_')
+		    eval ${key}=\${value}
+		  done < "$props_file"
+		else
+			read -p "$file properties file not found, please enter the tigergraph user (tigergraph): " tguser
+			if [[ ! -z $tguser ]];
+			then 
+		    	tg_username=$tguser
+			else
+		    	tg_username="tigergraph"
+			fi
+			read -p "$file properties file not found, please enter the tigergraph user password (tigergraph): " tgpw
+			if [[ ! -z $tgpw ]];
+			then 
+		    	tg_password=$tgpw
+			else
+		    	tg_password="tigergraph"
+			fi
+		fi
+
 		echo "executing this command: gsql ./scripts/gsql/${fn}-${kitNameArray[kitNumber-1]}Graph.gsql"
-		gsql "./scripts/gsql/${fn}-${kitNameArray[kitNumber-1]}Graph.gsql"
+		gsql -p $tg_password "./scripts/gsql/${fn}-${kitNameArray[kitNumber-1]}Graph.gsql"
 		break
 	elif [ $install_type == 'P' ] || [ $install_type == 'p' ] || [ $install_type == 'python' ]; then
 		echo "Cool, python it is..."
