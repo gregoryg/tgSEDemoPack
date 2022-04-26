@@ -68,9 +68,9 @@ echo "Next, lets retrieve the dataset content for these demos from S3."
 echo 'This may take a minute....'
 
 cd ..
-wget https://tgsedemodatabucket.s3.amazonaws.com/tgSEDemoPack.tar.gz
+wget https://tgsedemodatabucket.s3.amazonaws.com/tgSEDemoDataPack.tar.gz
 tar -xzvf tgSEDemoPack.tar.gz &>/dev/null
-rm -rf tgSEDemoPack.tar.gz
+rm -rf tgSEDemoDataPack.tar.gz
 cd tgSEDemoPack
 
 echo 'Datasets added to custom demo packs'
