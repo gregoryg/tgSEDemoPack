@@ -36,7 +36,7 @@ if [[ "$resp" == *"refused"* || "$resp" == *"not found"* ]]; then
         esac
     done
 else 
-	echo -e "${GREEN}Services up and running locally${NC}"
+	echo -e "${GREEN}Tigergraph Services up and running locally${NC}"
 fi
 
 echo ''
@@ -64,13 +64,13 @@ else
 fi
 
 echo ''
-echo "This utility uses the python pyTigerGraph library, which needs to be installed via pip"
-read -p "Hit return to continue " return
+echo "The python pyTigerGraph library is verified using the python package manager - pip"
+read -p "Hit return to check the pyTigergraph config " return
 
 pipVersion="$(pip --version 2>&1)"
 if [[ $pipVersion == *"python3"* ]];
 then
-    echo -e "${GREEN}pip points to python 3, check${NC}"
+    echo -e "${GREEN}pip points to python 3, all set${NC}"
     pipcmd='pip'
 else
     pip3Version="$(pip3 --version 2>&1)"
@@ -94,15 +94,17 @@ else
 fi
 
 echo ''
-echo 'You will need an AWS client access token to access the demo data which is stored on S3'
+echo 'Lastly, you will need an AWS client access token to access the demo data which is stored on S3'
 echo '  A token can be retrieved from the AWS Console, or by contacting a friendly SE'
-echo '   The format of a token looks like this:'
+echo ''
+echo '  The format of a token looks like this:'
 echo '     Access key ID,Secret access key'
 echo '     ***********OC7EB,**************LPdAZ'
 echo ''
 
+echo "Pre-checks completed on $(date)" > .prechk
+
 read -p "Pre-requisite checks complete, hit return to continue " return
 echo ''
 
-echo "Pre-checks completed on $(date)" > .prechk
 

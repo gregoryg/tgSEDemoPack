@@ -10,14 +10,17 @@
 echo ''
 echo "Welcome to the TGSEDemo Pack Installer....."
 echo '  This package will install TigerGraph graph solutions (graph and data) onto any tigergraph instance including:'
-echo '     1) local - a local instance of tigergraph or docker container running locally'
 echo '     1) docker - docker container running locally on a mac'
-echo '     2) any cloud vm'
-echo '     3) TGCloud'
+echo '     2) local - from the local computer to a Cloud/VM instance'
+echo '     3) any cloud vm'
+echo '     4) TGCloud - using python package to deploy to an existing TGCLoud instance'
 echo ''
+echo 'A key feature of the SEDemo pack is that is supports deploying multiple demo solutions (Cust360 and Fraud for example)'
+echo '   to the same instance, so that a user can explore any/all solutions from a single Graph Studio UI'
 
 if [ ! -f ./.prechk ]
 then
+	echo ''
 	echo "First, lets check on some pre-requisites, to make sure your environment is ready"
 	./checkPreReqs.sh
 fi
@@ -48,14 +51,14 @@ then
     eval ${key}=\${value}
   done < "$props_file"
 else
-	read -p "$file properties file not found, please enter the tigergraph user (tigergraph): " tguser
+	read -p "Please enter the tigergraph user (tigergraph): " tguser
 	if [[ ! -z $tguser ]];
 	then 
     	tg_username=$tguser
 	else
     	tg_username="tigergraph"
 	fi
-	read -p "$file properties file not found, please enter the tigergraph user password (tigergraph): " tgpw
+	read -p "Please enter the tigergraph user password (tigergraph): " tgpw
 	if [[ ! -z $tgpw ]];
 	then 
     	tg_password=$tgpw
@@ -67,6 +70,7 @@ fi
 data_file='./packages/tpcds/data/customer.csv'
 if [ -f "$data_file" ]
 then
+	echo 'Using the embedded dataset diles.'
 	;;
 else
 	echo "Next, lets retrieve the dataset content for these demos from S3."
@@ -77,9 +81,11 @@ else
 	tar -xzvf tgSEDemoDataPack.tar.gz &>/dev/null
 	rm -rf tgSEDemoDataPack.tar.gz
 	cd tgSEDemoPack
+
+	echo ''
+	echo 'Datasets added to custom demo packs'
 fi
 
-echo 'Datasets added to custom demo packs'
 
 echo ''
 echo "Custom demo install process "
