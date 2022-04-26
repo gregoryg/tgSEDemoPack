@@ -39,6 +39,31 @@ while true; do
 	fi
 done
 
+props_file='./tg.properties'
+if [ -f "$props_file" ]
+then
+  while IFS='=' read -r key value
+  do
+    key=$(echo $key | tr '.' '_')
+    eval ${key}=\${value}
+  done < "$props_file"
+else
+	read -p "$file properties file not found, please enter the tigergraph user (tigergraph): " tguser
+	if [[ ! -z $tguser ]];
+	then 
+    	tg_username=$tguser
+	else
+    	tg_username="tigergraph"
+	fi
+	read -p "$file properties file not found, please enter the tigergraph user password (tigergraph): " tgpw
+	if [[ ! -z $tgpw ]];
+	then 
+    	tg_password=$tgpw
+	else
+    	tg_password="tigergraph"
+	fi
+fi
+
 echo "Next, lets retrieve the dataset content for these demos from S3."
 echo 'This may take a minute....'
 
@@ -78,44 +103,44 @@ read -p "Pick a number, or enter a/A for all: " choice
 		1)
 			echo ''
 			echo "Install Entity Resolution (MDM)"
-			gsql packages/entityResMDM/scripts/01-create-schema.gsql
-			gsql packages/entityResMDM/scripts/02-load-data.gsql
-			gsql packages/entityResMDM/scripts/03-add-queries.gsql
+			gsql -p $tg_password packages/entityResMDM/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/entityResMDM/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/entityResMDM/scripts/03-add-queries.gsql
 			break
 		    ;;
 		2)
 		    echo "Install Anti-Fraud (AML)"
-			gsql packages/fraud/scripts/01-create-schema.gsql
-			gsql packages/fraud/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/fraud/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/fraud/scripts/02-load-data.gsql
 			break
 		    ;;
 		3)
 			echo ''
 			echo "Install LDBC - with small sample dataset"
-			gsql packages/ldbc/scripts/01-create-schema.gsql
-			gsql packages/ldbc/scripts/02-load-data-sample.gsql
+			gsql -p $tg_password packages/ldbc/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/ldbc/scripts/02-load-data-sample.gsql
 			break
 		    ;;
 		4)
 		    echo ''
 		    echo "Install TPC-DS"
-			gsql packages/tpcds/scripts/01-create-schema.gsql
-			gsql packages/tpcds/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/tpcds/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/tpcds/scripts/02-load-data.gsql
 			break
 		    ;;
 		5)
 		    echo ''
 		    echo "Install Synthea"
-			gsql packages/synthea/scripts/createSyntheaSchema.gsql
+			gsql -p $tg_password packages/synthea/scripts/createSyntheaSchema.gsql
 			./packages/synthea/scripts/installLoadJobs.sh
-			gsql packages/synthea/scripts/runSyntheaLoadJobs.gsql
+			gsql -p $tg_password packages/synthea/scripts/runSyntheaLoadJobs.gsql
 			break
 		    ;;
 		6)
 		    echo ''
 		    echo "Install IMDB"
-		    gsql packages/imdb/scripts/01-create-schema.gsql
-		    gsql packages/imdb/scripts/02-load-data.gsql
+		    gsql -p $tg_password packages/imdb/scripts/01-create-schema.gsql
+		    gsql -p $tg_password packages/imdb/scripts/02-load-data.gsql
 			break
 		    ;;
 		7)
@@ -127,8 +152,8 @@ read -p "Pick a number, or enter a/A for all: " choice
 		8)
 		    echo ''
 		    echo "Install Recommendations"
-			gsql packages/recommendations/scripts/01-create-schema.gsql
-			gsql packages/recommendations/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/recommendations/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/recommendations/scripts/02-load-data.gsql
 			break
 		    ;;
 		9)
@@ -154,50 +179,50 @@ read -p "Pick a number, or enter a/A for all: " choice
 		12) 
 		    echo ''
 		    echo "Install NetoworkIT Impact Analysis Graph"
-			gsql packages/NetworkITResOpt/scripts/01-create-schema.gsql
-			gsql packages/NetworkITResOpt/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/NetworkITResOpt/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/NetworkITResOpt/scripts/02-load-data.gsql
 			break
 			;;
 		13) 
 		    echo ''
 		    echo "Install Shortest Path Flights Graph"
-			gsql packages/shortestPathFlights/scripts/01-create-schema.gsql
-			gsql packages/shortestPathFlights/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/shortestPathFlights/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/shortestPathFlights/scripts/02-load-data.gsql
 			break
 			;;
 		a|A)
 		    echo ''
 		    echo 'Lets load all of the schemas'
-			gsql packages/entityResMDM/scripts/01-create-schema.gsql
-			gsql packages/entityResMDM/scripts/02-load-data.gsql
-			gsql packages/entityResMDM/scripts/03-add-queries.gsql
+			gsql -p $tg_password packages/entityResMDM/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/entityResMDM/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/entityResMDM/scripts/03-add-queries.gsql
 		    echo "Install Fraud/AML - data tbd"
-			gsql packages/fraud/scripts/01-create-schema.gsql
-			gsql packages/fraud/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/fraud/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/fraud/scripts/02-load-data.gsql
 			echo ''
 			echo "Install LDBC - with small sample dataset"
-			gsql packages/ldbc/scripts/01-create-schema.gsql
-			gsql packages/ldbc/scripts/02-load-data-sample.gsql
+			gsql -p $tg_password packages/ldbc/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/ldbc/scripts/02-load-data-sample.gsql
 		    echo ''
 		    echo "Install TPC-DS - data tbd"
-			gsql packages/tpcds/scripts/01-create-schema.gsql
-			gsql packages/tpcds/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/tpcds/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/tpcds/scripts/02-load-data.gsql
 		    echo ''
 		    echo "Install Synthea"
-			gsql packages/synthea/scripts/createSyntheaSchema.gsql
+			gsql -p $tg_password packages/synthea/scripts/createSyntheaSchema.gsql
 			./packages/synthea/scripts/installLoadJobs.sh
-			gsql packages/synthea/scripts/runSyntheaLoadJobs.gsql
+			gsql -p $tg_password packages/synthea/scripts/runSyntheaLoadJobs.gsql
 		    echo ''
 		    echo "Install IMDB"
-		    gsql packages/imdb/scripts/01-create-schema.gsql
-		    gsql packages/imdb/scripts/02-load-data.gsql
+		    gsql -p $tg_password packages/imdb/scripts/01-create-schema.gsql
+		    gsql -p $tg_password packages/imdb/scripts/02-load-data.gsql
 		    echo ''
 		    echo "Install Cust360"
 		    ./packages/cust360/installCust360.sh
 		    echo ''
 		    echo "Install Recommendations"
-			gsql packages/recommendations/scripts/01-create-schema.gsql
-			gsql packages/recommendations/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/recommendations/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/recommendations/scripts/02-load-data.gsql
 		    echo ''
 		    echo "Install AML Sim"
 			gsql work-in-progress/AMLSim/scripts/01-create-schema.gsql
@@ -211,12 +236,12 @@ read -p "Pick a number, or enter a/A for all: " choice
 		    echo ''
 		    echo ''
 		    echo "Install NetoworkIT Impact Analysis Graph"
-			gsql packages/NetworkITResOpt/scripts/01-create-schema.gsql
-			gsql packages/NetworkITResOpt/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/NetworkITResOpt/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/NetworkITResOpt/scripts/01-create-schema.gsql
 		    echo ''
 		    echo "Install Shortest Path Flights Graph"
-			gsql packages/shortestPathFlights/scripts/01-create-schema.gsql
-			gsql packages/shortestPathFlights/scripts/02-load-data.gsql
+			gsql -p $tg_password packages/shortestPathFlights/scripts/01-create-schema.gsql
+			gsql -p $tg_password packages/shortestPathFlights/scripts/02-load-data.gsql
 			break
 		    ;;
 		mysql)
