@@ -25,6 +25,7 @@ then
 	./checkPreReqs.sh
 fi
 
+echo ''
 echo "Would you like to install a Customer Demo or a TigerGraph Starter Kit?"
 echo ''
 
@@ -71,7 +72,6 @@ data_file='./packages/tpcds/data/customer.csv'
 if [ -f "$data_file" ]
 then
 	echo 'Using the embedded dataset diles.'
-	;;
 else
 	echo "Next, lets retrieve the dataset content for these demos from S3."
 	echo 'This may take a minute....'
@@ -144,7 +144,25 @@ read -p "Pick a number, or enter a/A for all: " choice
 		    echo ''
 		    echo "Install Synthea"
 			gsql -p $tg_password packages/synthea/scripts/createSyntheaSchema.gsql
-			./packages/synthea/scripts/installLoadJobs.sh
+
+			gsql -p $tg_password ./packages/synthea/scripts/loadOrganizations.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadEncounters.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadPatientSymptoms.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadImaging.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadPayerTransitions.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadImmunizations.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadPayers.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadProcedures.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadAllergies.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadMedications.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadProviders.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadAttributes.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadObservations.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadZips.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadCareplans.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadConditions.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadPatient.gsql
+			gsql -p $tg_password ./packages/synthea/scripts/loadDevices.gsql
 			gsql -p $tg_password packages/synthea/scripts/runSyntheaLoadJobs.gsql
 			break
 		    ;;
@@ -159,6 +177,12 @@ read -p "Pick a number, or enter a/A for all: " choice
 		    echo ''
 		    echo "Install Cust360"
 		    ./packages/cust360/installCust360.sh
+		    gsql -p $tg_password  packages/cust360/scripts/create_cust360_schema.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_er.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_camp.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_events.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_orders.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_ratings.gsql
 			break
 		    ;;
 		8)
