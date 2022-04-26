@@ -1,4 +1,5 @@
 USE GLOBAL
+DROP QUERY ALL
 DROP GRAPH Entity_Resolution
 
 CREATE GRAPH Entity_Resolution()
