@@ -8,10 +8,10 @@
 ################################################
 
 echo ''
-echo "Welcome to the TGSolution Pack Installer....."
-echo '  This package will install TigerGraph modules (graph and data) onto any install'
-echo '  of TigerGraph:'
+echo "Welcome to the TGSEDemo Pack Installer....."
+echo '  This package will install TigerGraph graph solutions (graph and data) onto any tigergraph instance including:'
 echo '     1) local - a local instance of tigergraph or docker container running locally'
+echo '     1) docker - docker container running locally on a mac'
 echo '     2) any cloud vm'
 echo '     3) TGCloud'
 echo ''
@@ -64,14 +64,20 @@ else
 	fi
 fi
 
-echo "Next, lets retrieve the dataset content for these demos from S3."
-echo 'This may take a minute....'
+data_file='./packages/tpcds/data/customer.csv'
+if [ -f "$data_file" ]
+then
+	;;
+else
+	echo "Next, lets retrieve the dataset content for these demos from S3."
+	echo 'This may take a minute....'
 
-cd ..
-wget https://tgsedemodatabucket.s3.amazonaws.com/tgSEDemoDataPack.tar.gz
-tar -xzvf tgSEDemoDataPack.tar.gz &>/dev/null
-rm -rf tgSEDemoDataPack.tar.gz
-cd tgSEDemoPack
+	cd ..
+	wget https://tgsedemodatabucket.s3.amazonaws.com/tgSEDemoDataPack.tar.gz
+	tar -xzvf tgSEDemoDataPack.tar.gz &>/dev/null
+	rm -rf tgSEDemoDataPack.tar.gz
+	cd tgSEDemoPack
+fi
 
 echo 'Datasets added to custom demo packs'
 
