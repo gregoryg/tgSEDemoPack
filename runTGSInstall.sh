@@ -69,7 +69,7 @@ echo 'This may take a minute....'
 
 cd ..
 wget https://tgsedemodatabucket.s3.amazonaws.com/tgSEDemoDataPack.tar.gz
-tar -xzvf tgSEDemoPack.tar.gz &>/dev/null
+tar -xzvf tgSEDemoDataPack.tar.gz &>/dev/null
 rm -rf tgSEDemoDataPack.tar.gz
 cd tgSEDemoPack
 
