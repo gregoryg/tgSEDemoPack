@@ -99,7 +99,7 @@ while true; do
 	elif [ $install_type == 'G' ] || [ $install_type == 'g' ] || [ $install_type == 'gsql' ]; then
 		echo "Cool, gsql it is..."
 
-		props_file='../tg.properties'
+		props_file='./tg.properties'
 		if [ -f "$props_file" ]
 		then
 		  while IFS='=' read -r key value
