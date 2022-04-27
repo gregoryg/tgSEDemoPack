@@ -1,4 +1,5 @@
 # ignore all generated scripts
+starterKits/scripts/gsql/*
 starterKits/scripts/py/*
 starterKits/tg.properties
 starterKits/.pycmd
