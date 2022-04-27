@@ -1,9 +1,0 @@
-GRANT DATA_SOURCE s3_data_source TO GRAPH ShortestPathAlgorithmsGraph
-
-USE GRAPH ShortestPathAlgorithmsGraph
-
-CREATE LOADING JOB ShortestPathAlgorithmsGraph_load_job FOR GRAPH ShortestPathAlgorithmsGraph {
-
-LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ShortestPathAlgorithms/Airport.tsv\"}" TO VERTEX Airport VALUES ($"primary_id", $"name", $"city", $"country", $"IATA", $"latitude", $"longitude") USING SEPARATOR = "\t", HEADER = "true";
-LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ShortestPathAlgorithms/flight_route.tsv\"}" TO EDGE flight_route VALUES ($"from", $"to", $"miles") USING SEPARATOR = "\t", HEADER = "true";
-}

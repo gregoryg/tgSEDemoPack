@@ -1,4 +1,0 @@
-USE GRAPH CommunityDetectionGraph
-RUN LOADING JOB CommunityDetectionGraph_load_job USING EOF="true"
-DROP JOB CommunityDetectionGraph_load_job
-

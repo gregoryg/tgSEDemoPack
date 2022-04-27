@@ -1,4 +1,0 @@
-USE GRAPH SocialNetGraph
-RUN LOADING JOB SocialNetGraph_load_job USING EOF="true"
-DROP JOB SocialNetGraph_load_job
-

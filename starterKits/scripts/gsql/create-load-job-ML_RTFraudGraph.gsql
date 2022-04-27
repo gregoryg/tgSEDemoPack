@@ -1,9 +1,0 @@
-GRANT DATA_SOURCE s3_data_source TO GRAPH ML_RTFraudGraph
-
-USE GRAPH ML_RTFraudGraph
-
-CREATE LOADING JOB ML_RTFraudGraph_load_job FOR GRAPH ML_RTFraudGraph {
-
-LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ML_RTFraud/phone.tsv\"}" TO VERTEX phone VALUES ($"primary_id", $"flag") USING SEPARATOR = "\t", HEADER = "true";
-LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/ML_RTFraud/phone_phone.tsv\"}" TO EDGE phone_phone VALUES ($"from", $"to", $"num_of_call", $"total_duration", $"num_of_rejection", $"start_time", $"max_duration") USING SEPARATOR = "\t", HEADER = "true";
-}

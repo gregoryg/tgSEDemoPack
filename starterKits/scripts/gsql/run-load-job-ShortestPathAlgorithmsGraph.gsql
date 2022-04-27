@@ -1,4 +1,0 @@
-USE GRAPH ShortestPathAlgorithmsGraph
-RUN LOADING JOB ShortestPathAlgorithmsGraph_load_job USING EOF="true"
-DROP JOB ShortestPathAlgorithmsGraph_load_job
-

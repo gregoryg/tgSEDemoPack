@@ -1,4 +1,0 @@
-USE GRAPH FraudFinServGraph
-RUN LOADING JOB FraudFinServGraph_load_job USING EOF="true"
-DROP JOB FraudFinServGraph_load_job
-

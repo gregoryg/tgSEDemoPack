@@ -1,4 +1,0 @@
-USE GRAPH CyberSecThreatDetectionGraph
-RUN LOADING JOB CyberSecThreatDetectionGraph_load_job USING EOF="true"
-DROP JOB CyberSecThreatDetectionGraph_load_job
-
