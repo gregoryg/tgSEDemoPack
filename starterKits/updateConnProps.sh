@@ -18,7 +18,7 @@ then
     eval ${key}=\${value}
   done < "$props_file"
 else
-  echo "$file file not found, using defaults"
+  echo "$props_file file not found, using defaults"
   ## Default to local docker
   tg_host='http://localhost'
   tg_username="tigergraph_user"

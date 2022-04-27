@@ -74,7 +74,7 @@ while true; do
 		fn='create-schema'
 		break
 	elif [ $tg_task == 'D' ] || [ $tg_task == 'd' ]; then
-		fn='tg_createDataSource.py'
+		fn='tg_createDataSource'
 		break
 	elif [ $tg_task == 'L' ] || [ $tg_task == 'l' ]; then
 		fn='create-load-job'
@@ -90,6 +90,10 @@ while true; do
 	fi
 done
 
+echo 'Update the connection props...'
+./updateConnProps.sh
+echo ''
+
 while true; do
 	echo ''
 	read -p "Do you want to install via GSQL or Python? (G/P/p): " install_type
@@ -99,59 +103,22 @@ while true; do
 	elif [ $install_type == 'G' ] || [ $install_type == 'g' ] || [ $install_type == 'gsql' ]; then
 		echo "Cool, gsql it is..."
 
-		props_file='./tg.properties'
-		if [ -f "$props_file" ]
-		then
-		  while IFS='=' read -r key value
-		  do
-		    key=$(echo $key | tr '.' '_')
-		    eval ${key}=\${value}
-		  done < "$props_file"
+		if [[ $fn == 'tg_createDataSource' ]]; then
+			echo "executing this command: gsql ./scripts/gsql/tg_createDataSource.gsql"
+			gsql -p $tg_password "./scripts/gsql/tg_createDataSource.gsql"
+		elif [[ $fn == 'all' ]]; then
+			gsql -p $tg_password "./scripts/gsql/create-scheam-${kitNameArray[kitNumber-1]}Graph.gsql"
+			gsql -p $tg_password "./scripts/gsql/create-load-job-${kitNameArray[kitNumber-1]}Graph.gsql"
+			gsql -p $tg_password "./scripts/gsql/run-load-job-${kitNameArray[kitNumber-1]}Graph.gsql"
 		else
-			read -p "Please enter the tigergraph user (tigergraph): " tguser
-			if [[ ! -z $tguser ]];
-			then 
-		    	tg_username=$tguser
-			else
-		    	tg_username="tigergraph"
-			fi
-			read -p "Please enter the tigergraph user password (tigergraph): " tgpw
-			if [[ ! -z $tgpw ]];
-			then 
-		    	tg_password=$tgpw
-			else
-		    	tg_password="tigergraph"
-			fi
+			gsql -p $tg_password "./scripts/gsql/${fn}-${kitNameArray[kitNumber-1]}Graph.gsql"
 		fi
-
-		echo "executing this command: gsql ./scripts/gsql/${fn}-${kitNameArray[kitNumber-1]}Graph.gsql"
-		gsql -p $tg_password "./scripts/gsql/${fn}-${kitNameArray[kitNumber-1]}Graph.gsql"
+		echo ''
 		break
 	elif [ $install_type == 'P' ] || [ $install_type == 'p' ] || [ $install_type == 'python' ]; then
 		echo "Cool, python it is..."
-		echo "Lets make sure python is installed and configured"
-		python3 --version
-		result=$?
-		if [[ $result=0 ]]; then
-			echo 'Python installed, checking version'
-		else
-			echo 'Python is required to install to TGCloud, but not for local installs thru gsql...'
-				read -p "     Would you like to continue (Y), or exit and get your python together (N): " yesOrNo
-				if [[ $yesOrNo == 'N' ]] || [[ $yesOrNo == 'n' ]]; then
-					echo 'Fine, try again once python *and the pyTigerGraph library are installed'
-					exit 0
-				elif [[ $yesOrNo == 'Y' ]] || [[ $yesOrNo == 'y' ]]; then
-					echo "Lets keep going..."
-					echo ''
-				else
-					echo 'I need a Yes or No'
-					exit 0
-				fi
-		fi
-		echo 'Update the connection props...'
-		./updateConnProps.sh
-		echo ''
-		if [[ $fn == 'tg_createDataSource.py' ]]; then
+
+		if [[ $fn == 'tg_createDataSource' ]]; then
 			echo "executing the create data source command: python ./py/${fn}"
 			$pycmd ./scripts/py/tg_createDataSource.py
 		elif [[ $fn == 'all' ]]; then
