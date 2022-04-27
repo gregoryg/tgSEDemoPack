@@ -1,0 +1,4 @@
+USE GRAPH EntityResMDMGraph
+RUN LOADING JOB EntityResMDMGraph_load_job USING EOF="true"
+DROP JOB EntityResMDMGraph_load_job
+

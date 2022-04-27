@@ -1,0 +1,4 @@
+USE GRAPH GSQL101Graph
+RUN LOADING JOB GSQL101Graph_load_job USING EOF="true"
+DROP JOB GSQL101Graph_load_job
+

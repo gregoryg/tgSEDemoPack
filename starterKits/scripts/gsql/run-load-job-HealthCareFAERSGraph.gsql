@@ -1,0 +1,4 @@
+USE GRAPH HealthCareFAERSGraph
+RUN LOADING JOB HealthCareFAERSGraph_load_job USING EOF="true"
+DROP JOB HealthCareFAERSGraph_load_job
+

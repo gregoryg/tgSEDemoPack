@@ -1,0 +1,10 @@
+GRANT DATA_SOURCE s3_data_source TO GRAPH LowRankApproxMLGraph
+
+USE GRAPH LowRankApproxMLGraph
+
+CREATE LOADING JOB LowRankApproxMLGraph_load_job FOR GRAPH LowRankApproxMLGraph {
+
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/LowRankApproxML/MATRIX_ROW.tsv\"}" TO VERTEX MATRIX_ROW VALUES ($"primary_id", SPLIT($"u", "#")) USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/LowRankApproxML/MATRIX_COLUMN.tsv\"}" TO VERTEX MATRIX_COLUMN VALUES ($"primary_id", SPLIT($"v", "#")) USING SEPARATOR = "\t", HEADER = "true";
+LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/LowRankApproxML/MATRIX_ELEMENT.tsv\"}" TO EDGE MATRIX_ELEMENT VALUES ($"from", $"to", $"element_value") USING SEPARATOR = "\t", HEADER = "true";
+}

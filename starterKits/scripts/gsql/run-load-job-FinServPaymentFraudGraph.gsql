@@ -1,0 +1,4 @@
+USE GRAPH FinServPaymentFraudGraph
+RUN LOADING JOB FinServPaymentFraudGraph_load_job USING EOF="true"
+DROP JOB FinServPaymentFraudGraph_load_job
+
