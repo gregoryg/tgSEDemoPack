@@ -1,4 +1,4 @@
-GRANT DATA_SOURCE s3_data_source TO GRAPH EntityResMDMGraph
+GRANT DATA_SOURCE tg_s3_data_source TO GRAPH EntityResMDMGraph
 
 USE GRAPH EntityResMDMGraph
 

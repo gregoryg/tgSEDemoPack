@@ -1,4 +1,4 @@
-GRANT DATA_SOURCE s3_data_source TO GRAPH CyberSecThreatDetectionGraph
+GRANT DATA_SOURCE tg_s3_data_source TO GRAPH CyberSecThreatDetectionGraph
 
 USE GRAPH CyberSecThreatDetectionGraph
 
