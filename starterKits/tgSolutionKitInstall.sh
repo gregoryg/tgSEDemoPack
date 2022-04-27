@@ -120,7 +120,7 @@ while true; do
 			echo "executing this command: gsql ./scripts/gsql/tg_createDataSource.gsql"
 			gsql -p $tg_password "./scripts/gsql/tg_createDataSource.gsql"
 		elif [[ $fn == 'all' ]]; then
-			gsql -p $tg_password "./scripts/gsql/create-scheam-${kitNameArray[kitNumber-1]}Graph.gsql"
+			gsql -p $tg_password "./scripts/gsql/create-schema-${kitNameArray[kitNumber-1]}Graph.gsql"
 			gsql -p $tg_password "./scripts/gsql/create-load-job-${kitNameArray[kitNumber-1]}Graph.gsql"
 			gsql -p $tg_password "./scripts/gsql/run-load-job-${kitNameArray[kitNumber-1]}Graph.gsql"
 		else
