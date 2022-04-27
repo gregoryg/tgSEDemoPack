@@ -4,4 +4,15 @@ starterKits/scripts/py/*
 starterKits/tg.properties
 starterKits/.pycmd
 .prechk
+packages/cust360/data/
+packages/entityResMDM/data/
+packages/fraud/data/
+packages/imdb/data/
+packages/ldbc/data/
+packages/recommendations/data/
+packages/synthea/data/
+packages/tpcds/data/
+work-in-progress/AMLSim/data/
+work-in-progress/airline/data/
+work-in-progress/flightDelay/data/
 
