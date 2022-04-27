@@ -108,14 +108,14 @@ while true; do
 		    eval ${key}=\${value}
 		  done < "$props_file"
 		else
-			read -p "$file properties file not found, please enter the tigergraph user (tigergraph): " tguser
+			read -p "Please enter the tigergraph user (tigergraph): " tguser
 			if [[ ! -z $tguser ]];
 			then 
 		    	tg_username=$tguser
 			else
 		    	tg_username="tigergraph"
 			fi
-			read -p "$file properties file not found, please enter the tigergraph user password (tigergraph): " tgpw
+			read -p "Please enter the tigergraph user password (tigergraph): " tgpw
 			if [[ ! -z $tgpw ]];
 			then 
 		    	tg_password=$tgpw
