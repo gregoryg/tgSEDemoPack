@@ -23,7 +23,7 @@ else
   tg_host='http://localhost'
   tg_username="tigergraph_user"
   tg_password="tigergraph_pw"
-  tg_s3_data_source="s3_data_source"
+  tg_s3_data_source="tg_s3_data_source"
   tg_s3_bucket_name="tg-workshop-us"
   tg_access_key_ID="AKIA45R*********"
   tg_secret_access_key="jeO8GXIVCpjDkYVccHfuLL**************"
