@@ -94,6 +94,19 @@ echo 'Update the connection props...'
 ./updateConnProps.sh
 echo ''
 
+props_file='./tg.properties'
+if [ -f "$props_file" ]
+then
+  while IFS='=' read -r key value
+  do
+    key=$(echo $key | tr '.' '_')
+    eval ${key}=\${value}
+  done < "$props_file"
+else
+	echo "problem accesing props file, exiting"
+	exit 0
+fi
+
 while true; do
 	echo ''
 	read -p "Do you want to install via GSQL or Python? (G/P/p): " install_type
