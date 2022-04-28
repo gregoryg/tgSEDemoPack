@@ -176,7 +176,6 @@ read -p "Pick a number, or enter a/A for all: " choice
 		7)
 		    echo ''
 		    echo "Install Cust360"
-		    ./packages/cust360/installCust360.sh
 		    gsql -p $tg_password  packages/cust360/scripts/create_cust360_schema.gsql
 			gsql -p $tg_password  packages/cust360/scripts/customer360_load_er.gsql
 			gsql -p $tg_password  packages/cust360/scripts/customer360_load_camp.gsql
@@ -195,21 +194,21 @@ read -p "Pick a number, or enter a/A for all: " choice
 		9)
 		    echo ''
 		    echo "Install AML Sim"
-			gsql work-in-progress/AMLSim/scripts/01-create-schema.gsql
-			gsql work-in-progress/AMLSim/scripts/02-load-data.gsql
+			gsql -p $tg_password work-in-progress/AMLSim/scripts/01-create-schema.gsql
+			gsql -p $tg_password work-in-progress/AMLSim/scripts/02-load-data.gsql
 			break
 		    ;;
 		10)
 		    echo ''
 		    echo "Install Ontime Perf Graph"
-			gsql work-in-progress/airline/scripts/01-create-schema.gsql
-			gsql work-in-progress/airline/scripts/createAirlineLoadJobs.gsql
+			gsql -p $tg_password work-in-progress/airline/scripts/01-create-schema.gsql
+			gsql -p $tg_password work-in-progress/airline/scripts/createAirlineLoadJobs.gsql
 			break
 		    ;;
 		11)
 		    echo ''
 		    echo "Install Adworks Graph"
-			gsql work-in-progress/adWorks/scripts/01-create-schema.gsql
+			gsql -p $tg_password work-in-progress/adWorks/scripts/01-create-schema.gsql
 			break
 		    ;;
 		12) 
@@ -254,22 +253,26 @@ read -p "Pick a number, or enter a/A for all: " choice
 		    gsql -p $tg_password packages/imdb/scripts/02-load-data.gsql
 		    echo ''
 		    echo "Install Cust360"
-		    ./packages/cust360/installCust360.sh
+		    gsql -p $tg_password  packages/cust360/scripts/create_cust360_schema.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_er.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_camp.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_events.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_orders.gsql
+			gsql -p $tg_password  packages/cust360/scripts/customer360_load_ratings.gsql
 		    echo ''
 		    echo "Install Recommendations"
 			gsql -p $tg_password packages/recommendations/scripts/01-create-schema.gsql
 			gsql -p $tg_password packages/recommendations/scripts/02-load-data.gsql
 		    echo ''
 		    echo "Install AML Sim"
-			gsql work-in-progress/AMLSim/scripts/01-create-schema.gsql
-			gsql work-in-progress/AMLSim/scripts/02-load-data.gsql
+			gsql -p $tg_password work-in-progress/AMLSim/scripts/01-create-schema.gsql
+			gsql -p $tg_password work-in-progress/AMLSim/scripts/02-load-data.gsql
 		    echo "Install Ontime Perf Graph"
-			gsql work-in-progress/airline/scripts/01-create-schema.gsql
-			gsql work-in-progress/airline/scripts/createAirlineLoadJobs.gsql
+			gsql -p $tg_password work-in-progress/airline/scripts/01-create-schema.gsql
+			gsql -p $tg_password work-in-progress/airline/scripts/createAirlineLoadJobs.gsql
 		    echo ''
 		    echo "Install Adworks Graph"
-			gsql work-in-progress/adWorks/scripts/01-create-schema.gsql
-		    echo ''
+			gsql -p $tg_password work-in-progress/adWorks/scripts/01-create-schema.gsql
 		    echo ''
 		    echo "Install NetoworkIT Impact Analysis Graph"
 			gsql -p $tg_password packages/NetworkITResOpt/scripts/01-create-schema.gsql
