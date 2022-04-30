@@ -29,6 +29,15 @@ else
   tg_secret_access_key="jeO8GXIVCpjDkYVccHfuLL**************"
 fi
 
+## Capture the original template file values
+tg_host_orig='http://localhost'
+tg_username_orig="tigergraph_user"
+tg_password_orig="tigergraph_pw"
+tg_s3_data_source_orig="tg_s3_data_source"
+tg_s3_bucket_name_orig="tg-workshop-us"
+tg_access_key_ID_orig="ACCESSKEYID"
+tg_secret_access_key_orig="SECRETACCESSKEY"
+
 echo ''
 echo 'The current property settings are:'
 echo ''
@@ -120,7 +129,7 @@ echo ''
 
 ## need to escape special chars in any imput
 tg_host_new_escaped=$(printf '%s\n' "$tg_host_new" | sed -e 's/[\/&]/\\&/g')
-tg_host_escaped=$(printf '%s\n' "$tg_host" | sed -e 's/[\/&]/\\&/g')
+tg_host_escaped=$(printf '%s\n' "$tg_host_orig" | sed -e 's/[\/&]/\\&/g')
 tg_key_escaped_new=$(printf '%s\n' "$tg_secret_access_key_new" | sed -e 's/[\/&]/\\&/g')
 
 
@@ -139,12 +148,15 @@ echo "tg_s3_bucket_name=$tg_bucketname_new" >> ./tg.properties
 echo "tg_access_key_ID=$tg_access_key_ID_new" >> ./tg.properties
 echo "tg_secret_access_key=$tg_secret_access_key_new" >> ./tg.properties
 
+echo "HOST = $tg_host_escaped --- $tg_host_new_escaped"
+echo "HOST = $tg_password --- $tg_password_new"
+
 ## Replace tokens in the template with actual values
 for file in "./templates/py/"*.py
   do
     sed "s/${tg_host_escaped}/${tg_host_new_escaped}/g" $file > bob.tmp
-    sed "s/${tg_username}/${tg_username_new}/g" bob.tmp > bob2.tmp
-    sed "s/${tg_password}/${tg_password_new}/g" bob2.tmp > bob3.tmp
+    sed "s/${tg_username_orig}/${tg_username_new}/g" bob.tmp > bob2.tmp
+    sed "s/${tg_password_orig}/${tg_password_new}/g" bob2.tmp > bob3.tmp
 
     newFile=$(echo "$file" | sed "s/templates/scripts/")
     ##echo "adding props to file: $newFile"
