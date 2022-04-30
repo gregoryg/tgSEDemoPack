@@ -107,6 +107,9 @@ else
 	exit 0
 fi
 
+echo "PASSWORD $tg_password"
+echo "PASSWORD NEW $tg_password_new"
+
 while true; do
 	echo ''
 	read -p "Do you want to install via GSQL or Python? (G/P/p): " install_type
