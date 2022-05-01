@@ -58,18 +58,18 @@ if [ $install_type == 'p' ] || [ $install_type == 'P' ] || [ $install_type == 'p
 	do
 		if [[ -f "$file" ]] ; then
 		echo "running script: $pycmd $file"
-		##$pycmd $file
+		$pycmd $file
 		fi
 	done
 	echo "create data source...."
-	## $pycmd ./scripts/py/tg_createDataSource.py
+	$pycmd ./scripts/py/tg_createDataSource.py
 
 	echo "create load jobs...."
 	for file in "./scripts/py/"create-load-*.py
 	do
 		if [[ -f "$file" ]] ; then
 		echo "running command: $pycmd $file"
-		##python $file
+		p$ycmd $file
 		fi
 	done
 	echo "run load jobs...."
@@ -77,7 +77,7 @@ if [ $install_type == 'p' ] || [ $install_type == 'P' ] || [ $install_type == 'p
 	do
 		if [[ -f "$file" ]] ; then
 		echo "running command: $pycmd $file"
-		##python $file
+		$pycmd $file
 		fi
 	done
 elif [ $install_type == 'G' ] || [ $install_type == 'g' ] || [ $install_type == 'gsql' ]; then
@@ -85,7 +85,7 @@ elif [ $install_type == 'G' ] || [ $install_type == 'g' ] || [ $install_type == 
 	for file in "./scripts/gsql/"create-schema-*.gsql
 	do
 		if [[ -f "$file" ]] ; then
-		echo "running command: $pycmd $file"
+		echo "running command: gsql -p $tg_password $file"
 		gsql -p $tg_password $file
 		fi
 	done
