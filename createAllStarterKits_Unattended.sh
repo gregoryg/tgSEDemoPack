@@ -103,34 +103,6 @@ else
 	exit 33
 fi
 
-while true; do
-	echo ''
-	read -p "Do you want to install via GSQL or Python? (G/P/p): " install_type
-	if [ -z "$install_type" ];
-	then 
-		echo "No input provided: should be create/load"
-	elif [ $install_type == 'G' ] || [ $install_type == 'g' ] || [ $install_type == 'gsql' ]; then
-		for file in "./gsql/"${fn}*.gsql
-		do
-		  	if [[ -f "$file" ]] ; then
-		  		echo "running script: $file"
-		  		gsql $file
-		  	fi
-		done
-		break
-	elif [ $install_type == 'P' ] || [ $install_type == 'p' ] || [ $install_type == 'python' ]; then
-		echo "Running python install, configuring env variables"
-		for file in "./py/"${fn}*.py
-		do
-	  		[[ -f "$file" ]] && echo "Publishing kit $file to the cloud via pyTigerGraph..."
-			python3 $file
-		done
-		break
-	else
-		echo "Invalid input provided: should be g/p, try again"
-	fi
-done
-
 echo ''
 echo 'All starter kits staged'
 echo ''
