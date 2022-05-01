@@ -90,8 +90,8 @@ while true; do
 	fi
 done
 
-echo 'Update the connection props...'
-./updateConnProps.sh
+echo 'Set the connection props...'
+./setConnProps.sh
 echo ''
 
 props_file='./tg.properties'
