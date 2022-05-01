@@ -91,7 +91,7 @@ To Install any of the content, follow these steps:
     cd tgSEDemoPack
     ./checkPreReqs.sh
     ./setProps.sh
-    nohup ./createAllSchemas_Unattended.sh > tgSEDemoPack.out 2>&1 &
+    nohup ./createAllStarterKits_Unattended.sh > tgSEDemoPack.out 2>&1 &
     ```
 
     NOTE: Running the Unattended version of the installer unsures that the gsql/python commands will run successfully, as data load can often take 10-15min, and if the shell session running is ended
@@ -134,5 +134,5 @@ Here are the properties used to execute the the installer
     - The demo pack can also install mysql-based schema into a local mysql database
     - future releases of the demo pack will include Data packs of various sizes: small, large, gi-normous
     - Queries are not yet packaged with the installer
-    
+
 
