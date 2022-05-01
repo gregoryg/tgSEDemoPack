@@ -25,8 +25,8 @@ else
   tg_password="tigergraph_pw"
   tg_s3_data_source="tg_s3_data_source"
   tg_s3_bucket_name="tg-workshop-us"
-  tg_access_key_ID="AKIA45R*********"
-  tg_secret_access_key="jeO8GXIVCpjDkYVccHfuLL**************"
+  tg_access_key_ID="ACCESSKEYID"
+  tg_secret_access_key="SECRETACCESSKEY
 fi
 
 ## Capture the original template file values
@@ -147,9 +147,6 @@ echo "tg_s3_data_source=$tg_datasource_new" >> ./tg.properties
 echo "tg_s3_bucket_name=$tg_bucketname_new" >> ./tg.properties
 echo "tg_access_key_ID=$tg_access_key_ID_new" >> ./tg.properties
 echo "tg_secret_access_key=$tg_secret_access_key_new" >> ./tg.properties
-
-echo "HOST = $tg_host_escaped --- $tg_host_new_escaped"
-echo "HOST = $tg_password --- $tg_password_new"
 
 ## Replace tokens in the template with actual values
 for file in "./templates/py/"*.py
