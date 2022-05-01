@@ -107,24 +107,32 @@ Here are the properties used to execute the the installer
         tg_access_key_ID = ************QOC7EB
         tg_secret_access_key = ***********************oCbLPdAZ
 
-6. There are multiple ways to run the installer for maximum flexibility, you can clone repo:
+6. There are multiple ways to deploy the installer for maximum flexibility, you can clone repo:
 
     a. Directly to the Tigergraph server, run gsql scripts from the server as the tigergraph user
     b. To any EC2 instance, run python scripts from there and install remotely
     c. To your Mac, and run either
-        c1. Python scripts to connect to TGCloud
+        c1. Python scripts to connect to TGCloud or other VM
         c2. GSQL scripts to connect to Docker on localhost 
 
-8.  The script will create the objects, loading job and execute each load job to populate the graph. To add new kits to the Deployer, simply
+8.  The script will create the schema, loading job and execute each load job to populate the graph. To add new kits to the Deployer, simply
 
     Create 3 gsql scripts
         - Create all schema objects (create-schema-<pack name>.gsql)
         - Create load job (create-load-job-<pack name>.gsql)
         - Run Load job (run-load-job-<pack name>.gsql)
 
+        In the load job definition, use the S3 loader syntax and place your source files on S3. Something like this:
+
+        LOAD "$tg_s3_data_source:{\"file.uris\":\"s3://tg-workshop-us/starter-kits/HealthCareFAERS/ReportedCase.tsv\"}" TO VERTEX ReportedCase VALUES ($"primary_id", $"caseid", $"caseversion", $"fda_dt", $"mfr_sndr", $"reporter_country", $"occr_country") USING SEPARATOR = "\t", HEADER = "true";
+
 9.  Go to the Studio UI to see progress
     -   for the local Docker container: <http://localhost:14240>
 
+10. Roadmap
+
     - The demo pack can also install mysql-based schema into a local mysql database
     - future releases of the demo pack will include Data packs of various sizes: small, large, gi-normous
+    - Queries are not yet packaged with the installer
+    
 
