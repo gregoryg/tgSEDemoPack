@@ -41,6 +41,11 @@ fi
 cd starterKits
 
 install_type=$1
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied, exiting"
+    exit 44
+fi
 echo "Will install using method $install_type"
 
 if [ $install_type == 'p' ] || [ $install_type == 'P' ] || [ $install_type == 'python' ]; then
