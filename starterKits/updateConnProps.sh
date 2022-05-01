@@ -26,7 +26,7 @@ else
   tg_s3_data_source="tg_s3_data_source"
   tg_s3_bucket_name="tg-workshop-us"
   tg_access_key_ID="ACCESSKEYID"
-  tg_secret_access_key="SECRETACCESSKEY
+  tg_secret_access_key="SECRETACCESSKEY"
 fi
 
 ## Capture the original template file values
