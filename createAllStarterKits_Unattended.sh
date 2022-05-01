@@ -40,6 +40,10 @@ fi
 
 cd starterKits
 
+## to python or python3
+pycmd=$(<.pycmd)
+echo "python command is: $pycmd"
+
 install_type=$1
 if [ $# -eq 0 ]
   then
@@ -53,18 +57,18 @@ if [ $install_type == 'p' ] || [ $install_type == 'P' ] || [ $install_type == 'p
 	for file in "./scripts/py/"create-schema-*.py
 	do
 		if [[ -f "$file" ]] ; then
-		echo "running script: $file"
-		##python $file
+		echo "running script: $pycmd $file"
+		##$pycmd $file
 		fi
 	done
 	echo "create data source...."
-	## gsql p $tg_password ./scripts/py/tg_createDataSource.py
+	## $pycmd ./scripts/py/tg_createDataSource.py
 
 	echo "create load jobs...."
 	for file in "./scripts/py/"create-load-*.py
 	do
 		if [[ -f "$file" ]] ; then
-		echo "running script: $file"
+		echo "running command: $pycmd $file"
 		##python $file
 		fi
 	done
@@ -72,7 +76,7 @@ if [ $install_type == 'p' ] || [ $install_type == 'P' ] || [ $install_type == 'p
 	for file in "./scripts/py/"run-load-job-*.py
 	do
 		if [[ -f "$file" ]] ; then
-		echo "running script: $file"
+		echo "running command: $pycmd $file"
 		##python $file
 		fi
 	done
@@ -81,27 +85,27 @@ elif [ $install_type == 'G' ] || [ $install_type == 'g' ] || [ $install_type == 
 	for file in "./scripts/gsql/"create-schema-*.gsql
 	do
 		if [[ -f "$file" ]] ; then
-		echo "running script: $file"
-		##gsql -p $tg_password $file
+		echo "running command: $pycmd $file"
+		gsql -p $tg_password $file
 		fi
 	done
-	echo "create data source.... gsql password is $tg_password"
-	## gsql p $tg_password ./scripts/gsql/tg_createDataSource.gsql
+	echo "create data source with command: gsql -p $tg_password ./scripts/gsql/tg_createDataSource.gsql "
+	gsql -p $tg_password ./scripts/gsql/tg_createDataSource.gsql
 
 	echo "create load jobs...."
 	for file in "./scripts/gsql/"create-load-*.gsql
 	do
 		if [[ -f "$file" ]] ; then
-		echo "running script: $file"
-		##gsql -p $tg_password $file
+		echo "running command: gsql -p $tg_password $file"
+		gsql -p $tg_password $file
 		fi
 	done
 	echo "run load jobs...."
 	for file in "./scripts/gsql/"run-load-job-*.gsql
 	do
 		if [[ -f "$file" ]] ; then
-		echo "running script: $file"
-		##gsql -p $tg_password $file
+		echo "running script: gsql -p $tg_password $file"
+		gsql -p $tg_password $file
 		fi
 	done
 
