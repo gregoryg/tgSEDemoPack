@@ -38,6 +38,8 @@ else
 	exit 11
 fi
 
+cd starterKits
+
 install_type=$1
 echo "Will install using method $install_type"
 
