@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./starterKits/setConnProps.sh
+cd starterKits
 
-
+./setConnProps.sh
