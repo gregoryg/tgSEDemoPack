@@ -71,7 +71,7 @@ fi
 data_file='./packages/tpcds/data/customer.csv'
 if [ -f "$data_file" ]
 then
-	echo 'Using the embedded dataset diles.'
+	echo 'Using the embedded dataset tsv files.'
 else
 	echo "Next, lets retrieve the dataset content for these demos from S3."
 	echo 'This may take a minute....'
