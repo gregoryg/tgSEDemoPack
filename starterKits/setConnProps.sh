@@ -136,6 +136,8 @@ tg_key_escaped_new=$(printf '%s\n' "$tg_secret_access_key_new" | sed -e 's/[\/&]
 ## add the keys to the load job template
 sed "s/ACCESSKEYID/${tg_access_key_ID_new}/g" ./templates/py/tg_createDataSource_orig.py > bob.tmp
 sed "s/SECRETACCESSKEY/${tg_key_escaped_new}/g" bob.tmp > ./templates/py/tg_createDataSource.py
+sed "s/ACCESSKEYID/${tg_access_key_ID_new}/g" ./templates/gsql/tg_createDataSource_orig.gsql > bob.tmp
+sed "s/SECRETACCESSKEY/${tg_key_escaped_new}/g" bob.tmp > ./templates/gsql/tg_createDataSource.gsql
 rm -rf bob.tmp
 
 ## Write new props to tg.properties file
