@@ -43,7 +43,7 @@ while true; do
 	fi
 done
 
-props_file='./starterKit/tg.properties'
+props_file='./starterKits/tg.properties'
 if [ -f "$props_file" ]
 then
   while IFS='=' read -r key value
