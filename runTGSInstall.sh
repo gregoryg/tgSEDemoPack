@@ -36,6 +36,7 @@ while true; do
 		./tgSolutionKitInstall.sh
 		exit 0
 	elif [[ "$choice" == *"C"* || "$choice" == *"c"* ]]; then
+		echo ''
 		echo 'Custom demo pack it is.'
 		break
 	else
@@ -71,8 +72,10 @@ fi
 data_file='./packages/tpcds/data/customer.csv'
 if [ -f "$data_file" ]
 then
+	echo ''
 	echo 'Using the embedded dataset tsv files.'
 else
+	ecgo ''
 	echo "Next, lets retrieve the dataset content for these demos from S3."
 	echo 'This may take a minute....'
 
@@ -88,7 +91,7 @@ fi
 
 
 echo ''
-echo "Custom demo install process "
+echo "Custom demo solutions: "
 echo ""
 echo "1     - Entity Resolution(MDM)"
 echo "2     - Fraud Detection"
